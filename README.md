@@ -238,3 +238,9 @@ Replace `images/hero-1.jpg` through `images/hero-5.jpg` with new images. Recomme
 © 2026 CuePointe Action Pool · Kampala, Uganda · All Rights Reserved.
 
 This repository contains the official CuePointe website. Content, branding, and media are proprietary and may not be reproduced without permission.
+
+## License
+
+© 2026 CuePointe Action Pool · Kampala, Uganda · All Rights Reserved.
+
+This repository contains the official CuePointe website. Content, branding, and media are proprietary and may not be reproduced without permission.
