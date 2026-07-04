@@ -1,0 +1,137 @@
+{
+    "posts": [
+        {
+            "id": "grand-knockout-march",
+            "featured": true,
+            "title": "Emmanuel Kateregga Wins Monthly Grand Knockout, Claims UGX 250,000 Prize",
+            "excerpt": "In a dramatic final at Kabalagala, Emmanuel K. defeated David Musoke 3-1 in the best-of-five final to claim the March Monthly Grand Knockout title and top prize. The match drew the largest crowd in CuePointe history, with over 80 spectators gathered at the venue.",
+            "category": "Tournament Result",
+            "color": "gold",
+            "date": "2025-03-29",
+            "author": "CuePointe Staff",
+            "topics": ["tournament"],
+            "icon": "🏆",
+            "images": []
+        },
+        {
+            "id": "league-s3-registration",
+            "title": "Kampala City League Season 3 Registration Now Open",
+            "excerpt": "Division 1 and Division 2 spots are filling up fast. Register before April 10 to secure your place.",
+            "category": "League",
+            "color": "green",
+            "date": "2025-03-25",
+            "author": "CuePointe Staff",
+            "topics": ["league"],
+            "icon": "📋",
+            "images": []
+        },
+        {
+            "id": "kansanga-partnership",
+            "title": "CuePointe Announces Partnership with Kansanga Sports Hub",
+            "excerpt": "A new permanent venue in Kansanga will host monthly events starting in May 2025.",
+            "category": "Announcement",
+            "color": "orange",
+            "date": "2025-03-20",
+            "author": "CuePointe Staff",
+            "topics": ["sponsors"],
+            "icon": "🌍",
+            "images": []
+        },
+        {
+            "id": "womens-division",
+            "title": "Women's Division Launched — First Women's Knockout Scheduled for May",
+            "excerpt": "CuePointe is proud to introduce a dedicated women's division. Inaugural Women's Knockout on May 17.",
+            "category": "Community",
+            "color": "green",
+            "date": "2025-03-15",
+            "author": "CuePointe Staff",
+            "topics": ["community", "women"],
+            "icon": "👩",
+            "images": []
+        },
+        {
+            "id": "sarah-top3",
+            "title": "Sarah Namutebi Enters Top 3 After Dominant Run in Ggaba Road Knockout",
+            "excerpt": "Sarah's back-to-back wins in March's weekly knockouts pushed her into 3rd on the season leaderboard.",
+            "category": "Rankings Update",
+            "color": "gold",
+            "date": "2025-03-10",
+            "author": "CuePointe Staff",
+            "topics": ["rankings", "players"],
+            "icon": "📊",
+            "images": []
+        },
+        {
+            "id": "wk17-results",
+            "title": "Weekly Knockout #17 Results — Full Match Recap & Stats",
+            "excerpt": "",
+            "category": "Tournament Result",
+            "color": "green",
+            "date": "2025-03-08",
+            "author": "CuePointe Staff",
+            "topics": ["tournament", "results"],
+            "icon": "🎱",
+            "images": []
+        },
+        {
+            "id": "10th-sponsor",
+            "title": "CuePointe Signs Its 10th Community Sponsor — Milestone Reached in Year 1",
+            "excerpt": "",
+            "category": "Sponsorship",
+            "color": "gold",
+            "date": "2025-03-05",
+            "author": "CuePointe Staff",
+            "topics": ["sponsors"],
+            "icon": "🤝",
+            "images": []
+        },
+        {
+            "id": "youth-award",
+            "title": "CuePointe Recognized as \"Emerging Sports Brand of the Year\" at Kampala Youth Awards",
+            "excerpt": "",
+            "category": "Achievement",
+            "color": "orange",
+            "date": "2025-02-28",
+            "author": "CuePointe Staff",
+            "topics": ["community", "kampala"],
+            "icon": "🏅",
+            "images": []
+        },
+        {
+            "id": "q2-calendar",
+            "title": "Full Q2 2025 Tournament Calendar Released — Save the Dates",
+            "excerpt": "",
+            "category": "Announcement",
+            "color": "green",
+            "date": "2025-02-22",
+            "author": "CuePointe Staff",
+            "topics": ["tournament"],
+            "icon": "📅",
+            "images": []
+        },
+        {
+            "id": "david-break",
+            "title": "David Musoke Makes History — Third Black-on-Break Achievement of the Season",
+            "excerpt": "",
+            "category": "Player Spotlight",
+            "color": "gold",
+            "date": "2025-02-18",
+            "author": "CuePointe Staff",
+            "topics": ["players", "results"],
+            "icon": "🖤",
+            "images": []
+        },
+        {
+            "id": "kampala-open-reg",
+            "title": "CuePointe Opens Registration for Kampala Open 2025 — Uganda's Biggest Pool Tournament",
+            "excerpt": "",
+            "category": "Championships",
+            "color": "green",
+            "date": "2025-02-10",
+            "author": "CuePointe Staff",
+            "topics": ["tournament", "kampala"],
+            "icon": "🌍",
+            "images": []
+        }
+    ]
+}

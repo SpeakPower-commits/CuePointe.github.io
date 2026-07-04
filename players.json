@@ -3,9 +3,11 @@
         "id": "0001",
         "name": "Abaka",
         "area": "Kabalagala",
-        "events": "1",
-        "wins": "0",
-        "score": "45.2",
-        "traits": "Strong Breaker"
+        "events": 1,
+        "wins": 0,
+        "rating": 1000,
+        "traits": "Strong Breaker",
+        "badges": [],
+        "photos": []
     }
 ]

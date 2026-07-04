@@ -1,0 +1,27 @@
+{
+    "season": "2026",
+    "stats": {
+        "activeSponsors": 11,
+        "playersSupported": 38,
+        "venues": 3
+    },
+    "allocation": {
+        "prize": 60,
+        "outreach": 30,
+        "ops": 10
+    },
+    "entries": [
+        { "date": "2026-06-14", "desc": "Weekly Knockout #18 Prize Payout", "sub": "Kabalagala Base", "amount": 80000, "type": "out", "status": "disbursed", "program": "prize" },
+        { "date": "2026-06-10", "desc": "Gold Sponsor — Nile Beverages Ltd", "sub": "Quarterly contribution", "amount": 1500000, "type": "in", "status": "received", "program": "prize" },
+        { "date": "2026-05-28", "desc": "Table Maintenance — Kansanga", "sub": "3 tables re-felted", "amount": 150000, "type": "out", "status": "disbursed", "program": "outreach" },
+        { "date": "2026-05-20", "desc": "Monthly Grand Knockout Prize Payout", "sub": "March champion: Emmanuel K.", "amount": 250000, "type": "out", "status": "disbursed", "program": "prize" },
+        { "date": "2026-05-15", "desc": "Silver Sponsor — Kampala Coffee Co.", "sub": "Monthly contribution", "amount": 400000, "type": "in", "status": "received", "program": "outreach" },
+        { "date": "2026-05-02", "desc": "Officiating Fees — April Events", "sub": "4 weekly knockouts", "amount": 120000, "type": "out", "status": "disbursed", "program": "ops" },
+        { "date": "2026-04-22", "desc": "Bronze Sponsor — Ggaba Hardware", "sub": "One-time contribution", "amount": 500000, "type": "in", "status": "received", "program": "ops" },
+        { "date": "2026-04-10", "desc": "Equipment Purchase — Cues & Chalk", "sub": "Kabalagala & Ggaba Road", "amount": 210000, "type": "out", "status": "disbursed", "program": "equip" },
+        { "date": "2026-04-01", "desc": "Gold Sponsor — Nile Beverages Ltd", "sub": "Q2 contribution pending transfer", "amount": 1500000, "type": "in", "status": "pending", "program": "prize" },
+        { "date": "2026-03-29", "desc": "Weekly Knockout #17 Prize Payout", "sub": "Kabalagala Base", "amount": 80000, "type": "out", "status": "disbursed", "program": "prize" },
+        { "date": "2026-03-18", "desc": "First-Time Player Access Grant", "sub": "6 new players, Kansanga", "amount": 90000, "type": "out", "status": "disbursed", "program": "outreach" },
+        { "date": "2026-03-05", "desc": "Silver Sponsor — Kampala Coffee Co.", "sub": "Season opener contribution", "amount": 1500000, "type": "in", "status": "received", "program": "outreach" }
+    ]
+}

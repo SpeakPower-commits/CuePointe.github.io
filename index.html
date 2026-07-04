@@ -582,7 +582,7 @@ footer { background:rgba(0,0,0,0.7); border-top:1px solid rgba(255,255,255,0.06)
     <!-- OUR STORY SLIDESHOW — add images/videos in images/about/ -->
     <div id="ss-about" style="position:relative;overflow:hidden;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);aspect-ratio:4/3">
       <div class="slides" id="ss-about-slides" style="display:flex;transition:transform .5s ease">
-        <!-- SLIDE 1: replace comment with <img src="images/about/story-1.jpg" alt=""> or <video autoplay muted loop playsinline><source src="images/about/story-1.mp4" type="video/mp4"></video> -->
+        <!-- SLIDE 1: replace comment with <img src="images/about/story-1.jpg" alt="" loading="lazy"> or <video autoplay muted loop playsinline><source src="images/about/story-1.mp4" type="video/mp4"></video> -->
         <div style="min-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:300px;border:2px dashed rgba(245,168,0,0.2)">
           <span style="font-size:36px">📷</span><p style="font-family:'Barlow Condensed';font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.2);text-align:center">images/about/story-1.jpg<br>or story-1.mp4</p>
         </div>
@@ -632,12 +632,8 @@ footer { background:rgba(0,0,0,0.7); border-top:1px solid rgba(255,255,255,0.06)
     <div class="sch-wrap">
       <table class="sch-table">
         <thead><tr><th>Tournament</th><th>Date</th><th>Venue</th><th>Entry Fee</th><th>Prize Pool</th><th>Status</th><th>Action</th></tr></thead>
-        <tbody>
-          <tr><td>Weekly Knockout #18</td><td>April 5, 2026 · 4PM</td><td>Kabalagala Base</td><td>UGX 5,000</td><td><span class="prize">UGX 80K</span></td><td><span class="badge badge-open">Open</span></td><td><a href="register.html" class="reg-link">Register →</a></td></tr>
-          <tr><td>Weekly Knockout #19</td><td>April 12, 2026 · 4PM</td><td>Kansanga Venue</td><td>UGX 5,000</td><td><span class="prize">UGX 80K</span></td><td><span class="badge badge-upcoming">Upcoming</span></td><td><a href="register.html" class="reg-link">Register →</a></td></tr>
-          <tr><td>Weekly Knockout #20</td><td>April 19, 2026 · 4PM</td><td>Ggaba Road Stage</td><td>UGX 5,000</td><td><span class="prize">UGX 80K</span></td><td><span class="badge badge-upcoming">Upcoming</span></td><td><a href="register.html" class="reg-link">Register →</a></td></tr>
-          <tr><td>Monthly Grand Knockout</td><td>April 26, 2026 · 2PM</td><td>TBC – Kampala</td><td>UGX 10,000</td><td><span class="prize">UGX 250K</span></td><td><span class="badge badge-featured">Featured</span></td><td><a href="register.html" class="reg-link">Register →</a></td></tr>
-          <tr><td>Weekly Knockout #21</td><td>May 3, 2026 · 4PM</td><td>Kabalagala Base</td><td>UGX 5,000</td><td><span class="prize">UGX 80K</span></td><td><span class="badge badge-upcoming">Upcoming</span></td><td><a href="register.html" class="reg-link">Register →</a></td></tr>
+        <tbody id="sch-weekly">
+          <tr><td colspan="7" style="text-align:center;padding:30px;color:rgba(255,255,255,0.35)">Loading events…</td></tr>
         </tbody>
       </table>
     </div>
@@ -646,10 +642,7 @@ footer { background:rgba(0,0,0,0.7); border-top:1px solid rgba(255,255,255,0.06)
     <div class="sch-wrap">
       <table class="sch-table">
         <thead><tr><th>League</th><th>Season</th><th>Venues</th><th>Entry</th><th>Prize Pool</th><th>Status</th><th>Action</th></tr></thead>
-        <tbody>
-          <tr><td>Kampala City League – Div 1</td><td>April – June 2026</td><td>Multiple Kampala Venues</td><td>UGX 20,000</td><td><span class="prize">UGX 1.5M</span></td><td><span class="badge badge-open">Open</span></td><td><a href="register.html" class="reg-link">Register →</a></td></tr>
-          <tr><td>Kampala City League – Div 2</td><td>April – June 2026</td><td>Multiple Kampala Venues</td><td>UGX 15,000</td><td><span class="prize">UGX 800K</span></td><td><span class="badge badge-open">Open</span></td><td><a href="register.html" class="reg-link">Register →</a></td></tr>
-          <tr><td>Southside Community League</td><td>May – July 2026</td><td>Kansanga & Kabalagala</td><td>UGX 10,000</td><td><span class="prize">UGX 500K</span></td><td><span class="badge badge-upcoming">Upcoming</span></td><td><a href="register.html" class="reg-link">Register →</a></td></tr>
+        <tbody id="sch-league">
         </tbody>
       </table>
     </div>
@@ -658,10 +651,7 @@ footer { background:rgba(0,0,0,0.7); border-top:1px solid rgba(255,255,255,0.06)
     <div class="sch-wrap">
       <table class="sch-table">
         <thead><tr><th>Championship</th><th>Date</th><th>Venue</th><th>Qualification</th><th>Prize Pool</th><th>Status</th><th></th></tr></thead>
-        <tbody>
-          <tr><td>CuePointe Kampala Open 2026</td><td>July 12–13, 2026</td><td>TBC – Kampala</td><td>Top 32 from Leagues</td><td><span class="prize">UGX 5M</span></td><td><span class="badge badge-upcoming">Upcoming</span></td><td><a href="register.html" class="reg-link">Qualify →</a></td></tr>
-          <tr><td>Uganda Youth Cue-Sports Championship</td><td>September 2026</td><td>Kampala National Venue</td><td>Top Ranked Players</td><td><span class="prize">UGX 15M</span></td><td><span class="badge badge-upcoming">Upcoming</span></td><td><a href="contact.html" class="reg-link">Learn More →</a></td></tr>
-          <tr><td>CuePointe Year-End Grand Slam</td><td>December 2026</td><td>TBC</td><td>Season Top 16</td><td><span class="prize">UGX 30M</span></td><td><span class="badge badge-closed">TBA</span></td><td>—</td></tr>
+        <tbody id="sch-champ">
         </tbody>
       </table>
     </div>
@@ -683,13 +673,8 @@ footer { background:rgba(0,0,0,0.7); border-top:1px solid rgba(255,255,255,0.06)
   <div class="lb-wrap reveal">
     <table class="lb-table">
       <thead><tr><th>#</th><th>Player</th><th>Area</th><th>Played</th><th>Wins</th><th>Win Rate</th><th>Badges</th><th>Pts</th><th>Trend</th></tr></thead>
-      <tbody>
-        <tr><td><span class="rnum r1">1</span></td><td><div class="pname">Cash Code.</div><div class="parea">Buziga</div></td><td>Buziga</td><td>24</td><td>20</td><td><div style="display:flex;align-items:center;gap:8px"><div class="wbar-wrap"><div class="wbar" style="width:83%"></div></div><span style="font-size:12px;color:var(--gold)">83%</span></div></td><td>⚡🎯🏅</td><td><span class="pts">2,840</span></td><td><span class="trend-up">▲ +2</span></td></tr>
-        <tr><td><span class="rnum r2">2</span></td><td><div class="pname">Cunimaya.</div><div class="parea">Kansanga</div></td><td>Kansanga</td><td>22</td><td>17</td><td><div style="display:flex;align-items:center;gap:8px"><div class="wbar-wrap"><div class="wbar" style="width:77%"></div></div><span style="font-size:12px;color:var(--gold)">77%</span></div></td><td>🖤⚡</td><td><span class="pts">2,610</span></td><td><span class="trend-dn">▼ -1</span></td></tr>
-        <tr><td><span class="rnum r3">3</span></td><td><div class="pname">Tet Teli.</div><div class="parea">Mutundwe</div></td><td>Mutundwe</td><td>20</td><td>15</td><td><div style="display:flex;align-items:center;gap:8px"><div class="wbar-wrap"><div class="wbar" style="width:75%"></div></div><span style="font-size:12px;color:var(--gold)">75%</span></div></td><td>🎯🏅</td><td><span class="pts">2,290</span></td><td><span class="trend-up">▲ +1</span></td></tr>
-        <tr><td><span class="rnum r4">4</span></td><td><div class="pname">Abaka.</div><div class="parea">Kabalagala</div></td><td>Kabalagala</td><td>19</td><td>13</td><td><div style="display:flex;align-items:center;gap:8px"><div class="wbar-wrap"><div class="wbar" style="width:68%"></div></div><span style="font-size:12px;color:var(--gold)">68%</span></div></td><td>⚡</td><td><span class="pts">1,980</span></td><td><span style="color:rgba(255,255,255,0.3);font-size:11px;font-family:'Barlow Condensed'">— 0</span></td></tr>
-        <tr><td><span class="rnum r4">5</span></td><td><div class="pname">Hassan M.</div><div class="parea">Namungoona</div></td><td>Namungoona</td><td>18</td><td>11</td><td><div style="display:flex;align-items:center;gap:8px"><div class="wbar-wrap"><div class="wbar" style="width:61%"></div></div><span style="font-size:12px;color:var(--gold)">61%</span></div></td><td>🏅</td><td><span class="pts">1,740</span></td><td><span class="trend-up">▲ +3</span></td></tr>
-        <tr><td><span class="rnum r4">6</span></td><td><div class="pname">Ronald T.</div><div class="parea">Ggaba Road</div></td><td>Ggaba Road</td><td>16</td><td>9</td><td><div style="display:flex;align-items:center;gap:8px"><div class="wbar-wrap"><div class="wbar" style="width:56%"></div></div><span style="font-size:12px;color:var(--gold)">56%</span></div></td><td>🎯</td><td><span class="pts">1,450</span></td><td><span class="trend-dn">▼ -2</span></td></tr>
+      <tbody id="lb-body">
+        <tr><td colspan="9" style="text-align:center;padding:30px;color:rgba(255,255,255,0.35)">Loading rankings…</td></tr>
       </tbody>
     </table>
   </div>
@@ -1296,37 +1281,74 @@ function vidSS(key,dir){vidSSGo(key,vidState[key].cur+dir);}
   if(dotsEl&&slides.length){slides.forEach((_,i)=>{const d=document.createElement('div');d.style.cssText='width:'+(i===0?'18':'6')+'px;height:6px;border-radius:'+(i===0?'3':'50%')+'px;background:'+(i===0?'var(--gold)':'rgba(255,255,255,.3)')+';cursor:pointer;transition:all .3s';d.onclick=()=>vidSSGo(key,i);dotsEl.appendChild(d);});}
 });
 
-  async function syncHomeRankings() {
-    try {
-      const response = await fetch('players.json');
-      const data = await response.json();
-      
-      // This assumes you have a table or list on your homepage 
-      // with an ID of "homeRankings"
-      const homeList = document.getElementById('homeRankings');
-      if (!homeList) return;
+/* ── LIVE DATA: rankings + schedule (edit via admin.html) ── */
+const escHtml = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-      homeList.innerHTML = ''; // Clear old names
-
-      // Sort and take only the Top 3 for the homepage
-      const topPlayers = data.players
-        .sort((a, b) => b.ranking_points - a.ranking_points)
-        .slice(0, 3);
-
-      topPlayers.forEach((player, index) => {
-        homeList.innerHTML += `
-          <div class="rank-item">
-            <span>#${index + 1}</span>
-            <strong>${player.name}</strong>
-            <span>${player.ranking_points} pts</span>
-          </div>
-        `;
-      });
-    } catch (err) {
-      console.log("Homepage sync failed:", err);
+fetch('players.json')
+  .then(r => r.json())
+  .then(data => {
+    const players = Array.isArray(data) ? data : (data.players || []);
+    const sorted = [...players].sort((a,b) => (parseFloat(b.rating ?? b.score) || 0) - (parseFloat(a.rating ?? a.score) || 0));
+    const tbody = document.getElementById('lb-body');
+    if (!tbody) return;
+    if (!sorted.length) {
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;color:rgba(255,255,255,0.35)">Rankings open after the first event — register to be on this board.</td></tr>';
+      return;
     }
-  }
-  window.onload = syncHomeRankings;
+    const rankClass = ['r1','r2','r3','r4'];
+    tbody.innerHTML = sorted.slice(0, 6).map((p, idx) => {
+      const events = parseInt(p.events) || 0;
+      const wins = parseInt(p.wins) || 0;
+      const wr = events > 0 ? Math.round(wins / events * 100) : 0;
+      const pts = Math.round(parseFloat(p.rating ?? p.score) || 0).toLocaleString();
+      const badges = (p.badges && p.badges.length) ? p.badges.join('') : '—';
+      return `<tr>
+        <td><span class="rnum ${rankClass[Math.min(idx,3)]}">${idx+1}</span></td>
+        <td><div class="pname">${escHtml(p.name)}</div><div class="parea">${escHtml(p.area||'')}</div></td>
+        <td>${escHtml(p.area||'—')}</td><td>${events}</td><td>${wins}</td>
+        <td><div style="display:flex;align-items:center;gap:8px"><div class="wbar-wrap"><div class="wbar" style="width:${wr}%"></div></div><span style="font-size:12px;color:var(--gold)">${wr}%</span></div></td>
+        <td>${badges}</td>
+        <td><span class="pts">${pts}</span></td>
+        <td><span style="color:rgba(255,255,255,0.3);font-size:11px;font-family:'Barlow Condensed'">—</span></td>
+      </tr>`;
+    }).join('');
+  })
+  .catch(() => {
+    const tbody = document.getElementById('lb-body');
+    if (tbody) tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;color:rgba(255,255,255,0.35)">Could not load rankings.</td></tr>';
+  });
+
+fetch('schedule.json')
+  .then(r => r.json())
+  .then(data => {
+    const events = data.events || [];
+    const BADGE = { open:'badge-open', upcoming:'badge-upcoming', featured:'badge-featured', closed:'badge-closed', tba:'badge-closed' };
+    const LABEL = { open:'Open', upcoming:'Upcoming', featured:'Featured', closed:'Closed', tba:'TBA' };
+    const row = ev => `<tr>
+      <td>${escHtml(ev.title)}</td><td>${escHtml(ev.date)}</td><td>${escHtml(ev.venue||'TBC')}</td>
+      <td>${escHtml(ev.entry||'—')}</td><td><span class="prize">${escHtml(ev.prize||'TBA')}</span></td>
+      <td><span class="badge ${BADGE[ev.status]||'badge-upcoming'}">${LABEL[ev.status]||escHtml(ev.status)}</span></td>
+      <td>${ev.status==='tba'||ev.status==='closed' ? '—' : '<a href="register.html" class="reg-link">Register →</a>'}</td>
+    </tr>`;
+    const fill = (id, cat) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const rows = events.filter(e => e.category === cat);
+      el.innerHTML = rows.length ? rows.map(row).join('')
+        : '<tr><td colspan="7" style="text-align:center;padding:30px;color:rgba(255,255,255,0.35)">No events in this category yet — check back soon.</td></tr>';
+    };
+    fill('sch-weekly', 'weekly');
+    fill('sch-league', 'league');
+    fill('sch-champ', 'championship');
+  })
+  .catch(() => {});
 </script>
+
+<!-- WhatsApp quick chat -->
+<a href="https://wa.me/256743482588?text=Hi%20CuePointe!%20I%27d%20like%20to%20join%20the%20next%20tournament." class="wa-float" target="_blank" rel="noopener" aria-label="Chat with CuePointe on WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+<style>.wa-float{position:fixed;bottom:22px;right:22px;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:300;box-shadow:0 6px 18px rgba(0,0,0,0.45);transition:transform .2s}.wa-float:hover{transform:scale(1.08)}.wa-float:focus-visible{outline:3px solid #F5A800;outline-offset:2px}.wa-float svg{width:30px;height:30px;fill:#fff}</style>
+
 </body>
 </html>
