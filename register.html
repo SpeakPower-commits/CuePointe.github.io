@@ -29,7 +29,8 @@
 .reg .wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(20px,4vw,48px);align-items:start}
 @media (max-width:860px){.reg .wrap{grid-template-columns:1fr}}
 h1{font-variation-settings:'wdth' 68;font-weight:900;font-size:clamp(40px,6vw,64px);line-height:.95;color:#fff;margin:6px 0 12px}
-.intro p{color:var(--muted);font-size:17px;max-width:30em}
+.intro > p{color:var(--muted);font-size:17px;max-width:30em}
+.intro > .kicker{color:var(--cream);font-size:14px}
 .kicker{font-family:var(--mono);font-size:14px;color:var(--cream)}
 
 /* payment card */
@@ -40,7 +41,7 @@ h1{font-variation-settings:'wdth' 68;font-weight:900;font-size:clamp(40px,6vw,64
 .pay .num{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:4px}
 .pay .num strong{font:600 26px var(--mono);letter-spacing:.02em}
 .pay .copy{min-height:40px;font-size:14px;padding:0 14px;border:2px solid var(--ink);background:transparent;color:var(--ink)}
-.pay .ref{margin-top:12px;font-size:15px}
+.pay .ref{margin-top:12px;font-size:15px;color:var(--ink)}
 
 /* form card */
 .formcard{background:#0B1F18;border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:clamp(20px,3vw,32px)}
