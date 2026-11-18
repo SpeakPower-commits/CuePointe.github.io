@@ -12,9 +12,12 @@ export async function POST(req) {
     const { fields, form } = await readBody(req);
     if (clean(fields.website)) return json({ ok: true }); // honeypot: bots fill hidden fields
 
+    // The short form sends one "full_name"; older forms send first and last name separately.
+    const full = clean(fields.full_name ?? fields.fullName, 160);
+    const [fullFirst, ...fullRest] = full ? full.split(' ') : [];
     const r = {
-      first_name: clean(fields.first_name ?? fields.firstName, 80),
-      last_name: clean(fields.last_name ?? fields.lastName, 80),
+      first_name: clean(fields.first_name ?? fields.firstName ?? fullFirst, 80),
+      last_name: clean(fields.last_name ?? fields.lastName ?? fullRest.join(' '), 80),
       phone: clean(fields.phone, 30),
       email: clean(fields.email, 160),
       area: clean(fields.area, 120),
@@ -26,7 +29,7 @@ export async function POST(req) {
       comments: cleanText(fields.comments, 1500),
       origin: ['home', 'register'].includes(fields.origin) ? fields.origin : 'site'
     };
-    if (!r.first_name || !r.last_name) throw httpError(400, 'Please enter your first and last name.');
+    if (!r.first_name) throw httpError(400, 'Please enter your full name.');
     if (!isPhone(r.phone)) throw httpError(400, 'Please enter a valid phone / WhatsApp number.');
     if (r.email && !isEmail(r.email)) throw httpError(400, 'Please enter a valid email address, or leave it blank.');
     if (!r.event) throw httpError(400, 'Please choose a tournament or event.');

@@ -1,0 +1,85 @@
+/* CuePointe shared look: colours from the table felt, the rail wood and the flyers.
+   Used by every redesigned page so header, buttons and footer stay identical. */
+:root{
+  --felt:#0E4D36; --felt-hi:#13603F; --felt-deep:#08291F; --baize:#061A14;
+  --rail:#5A3418; --rail-hi:#7A4A26;
+  --cream:#FFFFCB; --paper:#F4EFD9; --ink:#10140F; --ink-soft:#3A4038;
+  --chalk:#6CB4EE; --orange:#F26A1B; --orange-ink:#9A3A06; --ok:#7FE0A8;
+  --text:#EEF1EC; --muted:#B7C2BA;
+  --ball1:#F2C230; --ball2:#2A5DB0; --ball3:#C8322B; --ball4:#5B2A86;
+  --mono:'IBM Plex Mono', ui-monospace, monospace;
+  --display:'Archivo', 'Arial Narrow', sans-serif;
+  --wrap:min(1120px, calc(100% - 32px));
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{font-family:var(--display);background:var(--baize);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:inherit}
+img{max-width:100%;display:block}
+:focus-visible{outline:3px solid var(--chalk);outline-offset:3px}
+.wrap{width:var(--wrap);margin-inline:auto}
+.skip{position:absolute;left:12px;top:-60px;background:var(--cream);color:var(--ink);padding:10px 14px;font-weight:700;z-index:999;border-radius:4px}
+.skip:focus{top:12px}
+.mono{font-family:var(--mono)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+
+/* fine noise over green, like real baize */
+.felt{background-color:var(--felt);background-image:
+  radial-gradient(ellipse at 50% 35%, rgba(255,255,255,.07), transparent 60%),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* header with the cream logo plate */
+.top{position:sticky;top:0;z-index:50;background:rgba(6,26,20,.94);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08)}
+.top .wrap{display:flex;align-items:center;gap:20px;min-height:72px}
+.brand{display:block;background:var(--cream);border-radius:6px;padding:4px 8px;line-height:0;flex:none}
+.brand img{height:44px;width:auto}
+.nav{display:flex;gap:4px;margin-left:auto;list-style:none;align-items:center}
+.nav a{display:block;padding:10px 12px;text-decoration:none;font-weight:600;font-size:15px;color:var(--muted);border-radius:4px}
+.nav a:hover,.nav a[aria-current="page"]{color:var(--text);background:rgba(255,255,255,.06)}
+.menu-btn{display:none;margin-left:auto;background:none;border:2px solid rgba(255,255,255,.4);color:var(--text);border-radius:6px;min-height:44px;padding:0 14px;font:700 15px var(--display);cursor:pointer}
+@media (max-width:900px){
+  .menu-btn{display:inline-flex;align-items:center}
+  .nav{display:none;position:absolute;left:0;right:0;top:72px;flex-direction:column;align-items:stretch;background:var(--baize);padding:8px 16px 16px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .nav.open{display:flex}
+  .nav a{font-size:17px;padding:14px 12px}
+  .top .nav-cta{display:none}
+}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:6px;font-weight:800;font-size:16px;text-decoration:none;border:2px solid transparent;cursor:pointer;font-family:inherit;line-height:1.2}
+.btn-orange{background:var(--orange);color:#1A0B02}
+.btn-orange:hover{background:#FF7D33}
+.btn-line{border-color:rgba(255,255,255,.55);color:var(--text);background:transparent}
+.btn-line:hover{border-color:var(--text)}
+.btn-cream{background:var(--cream);color:var(--ink)}
+.btn-dark{background:var(--ink);color:var(--paper)}
+.more{font-weight:700;color:var(--cream);text-decoration-thickness:2px;text-underline-offset:4px}
+
+/* sections */
+section{padding:clamp(56px,8vw,96px) 0}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+.sec-head h2{font-variation-settings:'wdth' 68;font-weight:900;font-size:clamp(32px,4.6vw,48px);line-height:1;color:#fff}
+.sec-head p{color:var(--muted);max-width:36em}
+.empty{color:var(--muted);padding:16px 0}
+
+/* footer: plain text links, no icon badges */
+footer{border-top:1px solid rgba(255,255,255,.1);padding:36px 0 100px;color:var(--muted);font-size:15px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:20px 40px;justify-content:space-between;align-items:flex-start}
+footer ul{list-style:none;display:flex;flex-wrap:wrap;gap:6px 18px}
+footer a{color:var(--text);text-decoration:none}
+footer a:hover{text-decoration:underline}
+
+/* WhatsApp: a plain text button, no stock logo */
+.wa{position:fixed;right:16px;bottom:16px;z-index:60;display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 18px;border-radius:999px;
+  background:var(--cream);color:var(--ink);font-weight:800;font-size:15px;text-decoration:none;box-shadow:0 8px 22px rgba(0,0,0,.45);border:2px solid var(--ink)}
+.wa::before{content:"";width:10px;height:10px;border-radius:50%;background:#1FA855;box-shadow:0 0 0 3px rgba(31,168,85,.25)}
+.wa:hover{background:#fff}
+
+/* cookie notice sits above the WhatsApp button, never under it */
+.cookie{position:fixed;left:16px;right:16px;bottom:76px;z-index:59;background:var(--paper);color:var(--ink);border-radius:10px;padding:14px 16px;display:none;gap:12px;align-items:center;flex-wrap:wrap;box-shadow:0 8px 24px rgba(0,0,0,.4);max-width:600px}
+.cookie.show{display:flex}
+.cookie p{font-size:15px;flex:1 1 260px}
+.cookie .btn{min-height:40px;font-size:15px}
+.cookie .btn-line{border-color:var(--ink);color:var(--ink)}
+@media (max-width:640px){.cookie{padding:10px 12px;gap:8px}.cookie p{font-size:14px;flex-basis:100%}.cookie .btn{min-height:38px;padding:0 14px}}
