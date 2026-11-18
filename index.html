@@ -63,7 +63,14 @@
   background:linear-gradient(90deg, rgba(6,26,20,.86) 0%, rgba(6,26,20,.5) 38%, rgba(6,26,20,.08) 62%, rgba(6,26,20,0) 100%),
              linear-gradient(0deg, rgba(6,26,20,.85) 0%, rgba(6,26,20,0) 40%)}
 .hero-in{position:relative;z-index:2;width:var(--wrap);margin:0 auto;padding:clamp(96px,14vh,140px) 0 clamp(36px,6vh,64px);display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:end}
-@media (max-width:900px){.hero{min-height:0}.hero-in{grid-template-columns:1fr;padding-top:200px}.hero::after{background:linear-gradient(0deg, rgba(6,26,20,.95) 0%, rgba(6,26,20,.7) 55%, rgba(6,26,20,.2) 100%)}}
+/* phones: the whole photo as a 16:9 band (no zoomed crop), text underneath on dark */
+@media (max-width:900px){
+  .hero{display:block;min-height:0;background:var(--baize)}
+  .slides{position:relative;height:56.25vw;max-height:56vh}
+  .hero::after{display:none}
+  .hero-in{grid-template-columns:1fr;padding:22px 0 36px}
+  h1{font-size:clamp(40px,11vw,60px)}
+}
 .kicker{font-family:var(--mono);font-size:14px;color:var(--cream);letter-spacing:.03em}
 h1{font-variation-settings:'wdth' 68;font-weight:900;font-size:clamp(46px,8vw,92px);line-height:.92;margin:12px 0 16px;color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.4)}
 .lede{font-size:clamp(17px,2vw,20px);max-width:32em;color:#EEF2EE}
