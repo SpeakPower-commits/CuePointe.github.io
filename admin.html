@@ -438,9 +438,9 @@ async function login(){
     let me;
     if(setupMode){
       if(password !== $('password2-input').value) throw new Error('The two passwords do not match.');
-      me = await api('/api/admin/setup', { method:'POST', json:{ code: $('setup-code').value, email, password } });
+      me = await api('/api/admin/session', { method:'POST', json:{ action:'setup', code: $('setup-code').value, email, password } });
     }else{
-      me = await api('/api/admin/login', { method:'POST', json:{ email, password, remember: $('remember-me').checked } });
+      me = await api('/api/admin/session', { method:'POST', json:{ action:'login', email, password, remember: $('remember-me').checked } });
     }
     $('password-input').value = ''; $('password2-input').value = ''; $('setup-code').value = '';
     await enterApp(me.email);
@@ -453,7 +453,7 @@ async function login(){
 }
 function showLoginErr(msg){ const el = $('login-err'); el.textContent = msg; el.style.display = 'block'; }
 async function logout(){
-  try{ await api('/api/admin/logout', { method:'POST' }); }catch(e){}
+  try{ await api('/api/admin/session', { method:'DELETE' }); }catch(e){}
   location.reload();
 }
 async function enterApp(email){
@@ -958,15 +958,11 @@ localStorage.removeItem('cp_admin_token'); // clear any GitHub token saved by th
   $(id).addEventListener('keydown', e => { if(e.key === 'Enter') login(); }));
 (async function init(){
   try{
-    const me = await api('/api/admin/me');
-    await enterApp(me.email);
-    return;
-  }catch(e){ /* not signed in */ }
-  try{
-    const s = await api('/api/admin/setup');
-    if(s.needed){
+    const s = await api('/api/admin/session');
+    if(s.email){ await enterApp(s.email); return; }
+    if(s.setupNeeded){
       setLoginMode(true);
-      if(!s.enabled) showLoginErr('Setup is not switched on yet: add ADMIN_SETUP_CODE in Vercel → Settings → Environment Variables, then redeploy.');
+      if(!s.setupEnabled) showLoginErr('Setup is not switched on yet: add ADMIN_SETUP_CODE in Vercel → Settings → Environment Variables, then redeploy.');
     }
   }catch(e){ showLoginErr(e.message); }
 })();
