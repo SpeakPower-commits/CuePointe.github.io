@@ -90,6 +90,7 @@
     </style>
 </head>
 <body>
+<main id="main-content">
 
 <div class="form-container">
     <div class="logo-header">
@@ -101,28 +102,28 @@
     <form action="https://formspree.io/f/xvzvedly" method="POST">
         
         <div class="form-group">
-            <label>First Name *</label>
-            <input type="text" name="first_name" required>
+            <label for="r-first">First Name *</label>
+            <input type="text" id="r-first" name="first_name" required>
         </div>
 
         <div class="form-group">
-            <label>Last Name *</label>
-            <input type="text" name="last_name" required>
+            <label for="r-last">Last Name *</label>
+            <input type="text" id="r-last" name="last_name" required>
         </div>
 
         <div class="form-group">
-            <label>Phone / WhatsApp *</label>
-            <input type="tel" name="phone" placeholder="+256..." required>
+            <label for="r-phone">Phone / WhatsApp *</label>
+            <input type="tel" id="r-phone" name="phone" placeholder="+256..." required>
         </div>
 
         <div class="form-group">
-    <label>Location (Area / Neighborhood) *</label>
-    <input type="text" name="location" placeholder="e.g. Kabalagala, Kansanga, Entebbe" required>
+    <label for="r-location">Location (Area / Neighborhood) *</label>
+    <input type="text" id="r-location" name="location" placeholder="e.g. Kabalagala, Kansanga, Entebbe" required>
 </div>
 
         <div class="form-group">
-            <label>Skill Level *</label>
-            <select name="skill_level" required>
+            <label for="r-skill">Skill Level *</label>
+            <select id="r-skill" name="skill_level" required>
                 <option value="">Select your level</option>
                 <option value="Beginner">Beginner – I play casually</option>
                 <option value="Intermediate">Intermediate – I play regularly</option>
@@ -132,8 +133,8 @@
         </div>
 
         <div class="form-group">
-            <label>Tournament / Event *</label>
-            <select name="event" required>
+            <label for="r-event">Tournament / Event *</label>
+            <select id="r-event" name="event" required>
                 <option value="">Select an event</option>
                 <option value="Weekly #18">Weekly Knockout #18 – May 29, 2026</option>
                 <option value="Weekly #19">Weekly Knockout #19 – June 9, 2026</option>
@@ -142,13 +143,13 @@
         </div>
 
         <div class="form-group">
-            <label>Area / Neighborhood *</label>
-            <input type="text" name="area" required>
+            <label for="r-area">Area / Neighborhood *</label>
+            <input type="text" id="r-area" name="area" required>
         </div>
 
         <div class="form-group">
-            <label>How did you hear about us?</label>
-            <select name="source">
+            <label for="r-source">How did you hear about us?</label>
+            <select id="r-source" name="source">
                 <option value="Friend">Friend / Word of mouth</option>
                 <option value="Social Media">Social Media</option>
                 <option value="TikTok">TikTok</option>
@@ -162,8 +163,8 @@
         2. Use Reference: **[Your Name] - Tournament**
     </p>
     
-    <label style="margin-top: 10px;">Upload Payment Screenshot *</label>
-    <input type="file" name="payment_screenshot" accept="image/*" required>
+    <label for="r-payment" style="margin-top: 10px;">Upload Payment Screenshot *</label>
+    <input type="file" id="r-payment" name="payment_screenshot" accept="image/*" required>
 </div>
 
         <button type="submit" class="btn-submit">Submit Registration</button>
@@ -177,5 +178,6 @@
 </a>
 <style>.wa-float{position:fixed;bottom:22px;right:22px;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:300;box-shadow:0 6px 18px rgba(0,0,0,0.45);transition:transform .2s}.wa-float:hover{transform:scale(1.08)}.wa-float:focus-visible{outline:3px solid #F5A800;outline-offset:2px}.wa-float svg{width:30px;height:30px;fill:#fff}</style>
 
+</main>
 </body>
 </html>
