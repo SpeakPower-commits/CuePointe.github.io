@@ -70,30 +70,50 @@ cuepointe.vercel.app/
 
 Open **`https://cuepointe.vercel.app/admin.html`** on any device.
 
-**One-time setup:** create a GitHub fine-grained personal access token at
-[github.com/settings/personal-access-tokens/new](https://github.com/settings/personal-access-tokens/new)
-with access to **only this repository** and the single permission
-**Contents → Read and write**. Paste it into the admin login. It is stored
-only in your own browser — never in the website code. **Never commit a token
-to the repo or share it in chat.**
+Sign in with your admin **email and password**. No GitHub token is needed any more.
+
+**One-time setup (first admin only):**
+1. In Vercel → project `cuepointe` → Settings → Environment Variables, add
+   `ADMIN_SETUP_CODE` (type *Sensitive*, Production) with a phrase of at least 8 characters
+   that only you know. Redeploy.
+2. Open the admin page. It shows **Create Admin Account**. Enter the setup code, your email
+   and a password of at least 10 characters.
+3. Setup switches itself off once an admin exists. You can then delete `ADMIN_SETUP_CODE`.
 
 From the admin panel you can:
 
 | Tab | What it does |
 |-----|--------------|
+| **Inbox** | Every registration, contact message and venue application, with status (new → contacted → confirmed / paid → archived), payment screenshots and CSV export |
 | **Players** | Add / edit / remove players (name, area, traits, photos) |
-| **Record Match** | Log a result — ratings (Elo), events & wins update automatically |
-| **Schedule** | Add / edit tournaments — homepage tabs & schedule page update instantly |
+| **Record Match** | Log a result — ratings (Elo), events & wins update automatically (match and ratings save together) |
+| **Schedule** | Add / edit tournaments — homepage tabs, schedule page and the registration dropdowns update |
 | **News** | Publish news posts — featured story, grid, and sidebar all update |
 | **Talent Fund** | Add ledger entries — totals on the fund page are computed automatically |
-| **Photos** | Upload player/team/partner/news images straight into the repo |
+| **Photos** | Upload player/team/partner/news images to Vercel Blob; paste the returned `media/...` path |
 
-Every save is a git commit, so there is a full history of every change.
-GitHub Pages republishes within a minute or two.
+Saves go live within about 10 seconds. If two people edit the same section at once, the second
+save is refused and the page reloads the latest data, so nothing is silently overwritten.
 
-### Manual editing (fallback)
+## How the data works
 
-You can still edit the JSON files directly. A player object looks like:
+| Record | Stored in | Public URL |
+|--------|-----------|------------|
+| Registrations, contact messages, venue applications | Neon Postgres tables | none (admin only) |
+| Payment screenshots | Vercel Blob, private | none (admin only) |
+| Players, matches, schedule, news, fund | Neon Postgres (`documents` table) | `/players.json`, `/matches.json`, `/schedule.json`, `/news.json`, `/fund.json` |
+| Admin-uploaded photos | Vercel Blob | `/media/...` |
+
+- The API lives in `api/` (Vercel Functions) with shared code in `lib/`.
+- Tables are created automatically on the first request after a deploy.
+- `data/seed/*.json` is only the starting data. It is copied into the database once, and editing
+  these files later changes nothing. Use the admin panel.
+- Environment variables: `DATABASE_URL` (added by the Neon integration), `BLOB_READ_WRITE_TOKEN`
+  (added by the Blob store), `ADMIN_SETUP_CODE` (first setup only). Never put any of them in code.
+
+### Player record format
+
+A player object looks like:
 
 ```json
 {
@@ -225,11 +245,12 @@ Replace `images/hero-1.jpg` through `images/hero-5.jpg` with new images. Recomme
 
 ## Tech Stack
 
-- Pure **HTML5 / CSS3 / Vanilla JavaScript** — no frameworks, no build tools
-- Hosted on **GitHub Pages** — free, fast, zero server cost
-- Player data driven by **`players.json`** — update once, reflects everywhere
+- Pure **HTML5 / CSS3 / Vanilla JavaScript** pages — no frameworks, no build step
+- Hosted on **Vercel** (project `cuepointe`, production branch `New-Test`) with security headers in `vercel.json`
+- **Vercel Functions** (`api/`) for forms, admin sign-in and content
+- **Neon Postgres** (Vercel Marketplace, free plan) for all records
+- **Vercel Blob** (private store `cuepointe-uploads`) for payment screenshots and photos
 - Google Analytics via **GA4** (`G-221BNVJR22`)
-- Form submissions via **Formspree**
 
 ---
 

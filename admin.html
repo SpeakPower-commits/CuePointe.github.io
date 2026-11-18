@@ -25,6 +25,8 @@ label{display:block;font-family:'Barlow Condensed';font-size:11px;letter-spacing
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .btn-ghost{background:transparent;color:rgba(255,255,255,0.7);border:1px solid var(--line);padding:11px 20px;font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;border-radius:4px}
 .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn-ghost.active{border-color:var(--gold);color:var(--gold);background:rgba(245,168,0,0.08)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .btn-danger{background:transparent;color:var(--err);border:1px solid rgba(255,92,92,0.4);padding:6px 12px;font-size:11px;letter-spacing:1px;text-transform:uppercase;border-radius:4px}
 .btn-sm{padding:6px 12px;font-size:11px;letter-spacing:1px}
 
@@ -79,26 +81,32 @@ label{display:block;font-family:'Barlow Condensed';font-size:11px;letter-spacing
 <div id="login-view">
   <div class="login-card">
     <h1>CUEPOINTE <span>ADMIN</span></h1>
-    <p class="login-sub">Manage players, match results, schedule, news, and the talent fund. Every save is committed straight to the website.</p>
-    <div class="field">
-      <label for="token-input">GitHub Access Token</label>
-      <input type="password" id="token-input" placeholder="github_pat_..." autocomplete="off">
+    <p class="login-sub" id="login-sub">Manage registrations, players, match results, schedule, news, and the talent fund. Every save goes live within seconds.</p>
+    <div class="field" id="setup-code-field" style="display:none">
+      <label for="setup-code">Setup Code</label>
+      <input type="password" id="setup-code" autocomplete="off" placeholder="The ADMIN_SETUP_CODE you set in Vercel">
     </div>
-    <div class="remember">
+    <div class="field">
+      <label for="email-input">Email</label>
+      <input type="email" id="email-input" autocomplete="username" placeholder="you@example.com">
+    </div>
+    <div class="field">
+      <label for="password-input">Password</label>
+      <input type="password" id="password-input" autocomplete="current-password">
+    </div>
+    <div class="field" id="password2-field" style="display:none">
+      <label for="password2-input">Repeat Password</label>
+      <input type="password" id="password2-input" autocomplete="new-password">
+    </div>
+    <div class="remember" id="remember-row">
       <input type="checkbox" id="remember-me">
       <label for="remember-me" style="margin:0;font-family:'Barlow';font-size:13px;text-transform:none;letter-spacing:0;color:rgba(255,255,255,0.6)">Remember on this device</label>
     </div>
-    <button class="btn" id="login-btn" onclick="login()" style="width:100%">Unlock Admin</button>
+    <button class="btn" id="login-btn" onclick="login()" style="width:100%">Sign In</button>
     <p id="login-err" style="color:var(--err);font-size:13px;margin-top:10px;display:none"></p>
-    <div class="login-help">
-      <strong style="color:rgba(255,255,255,0.7)">How to create your token (one time):</strong>
-      <ol>
-        <li>Go to <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Fine-grained tokens</a></li>
-        <li>Repository access: <em>Only select repositories</em> → this website's repo</li>
-        <li>Permissions: <em>Contents → Read and write</em>. Nothing else.</li>
-        <li>Generate, copy, and paste it above.</li>
-      </ol>
-      The token stays in your browser only — it is never stored in the website code.
+    <div class="login-help" id="setup-help" style="display:none">
+      <strong style="color:rgba(255,255,255,0.7)">First-time setup</strong><br>
+      No admin account exists yet. Enter the setup code you saved in Vercel (Settings → Environment Variables → <code>ADMIN_SETUP_CODE</code>), then choose your email and a password of at least 10 characters. After this, setup switches itself off.
     </div>
   </div>
 </div>
@@ -114,7 +122,8 @@ label{display:block;font-family:'Barlow Condensed';font-size:11px;letter-spacing
   </div>
 
   <div class="tabs">
-    <button class="tab active" data-tab="players" onclick="switchTab('players')">Players</button>
+    <button class="tab active" data-tab="inbox" onclick="switchTab('inbox')">Inbox</button>
+    <button class="tab" data-tab="players" onclick="switchTab('players')">Players</button>
     <button class="tab" data-tab="match" onclick="switchTab('match')">Record Match</button>
     <button class="tab" data-tab="schedule" onclick="switchTab('schedule')">Schedule</button>
     <button class="tab" data-tab="news" onclick="switchTab('news')">News</button>
@@ -122,8 +131,32 @@ label{display:block;font-family:'Barlow Condensed';font-size:11px;letter-spacing
     <button class="tab" data-tab="photos" onclick="switchTab('photos')">Photos</button>
   </div>
 
+  <!-- ── INBOX ── -->
+  <div class="panel active" id="panel-inbox">
+    <div class="stat-row" id="inbox-stats"></div>
+    <div class="card">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn-ghost btn-sm" id="ib-registrations" onclick="showInbox('registrations')">Registrations</button>
+          <button class="btn-ghost btn-sm" id="ib-messages" onclick="showInbox('messages')">Messages</button>
+          <button class="btn-ghost btn-sm" id="ib-venues" onclick="showInbox('venues')">Venue Applications</button>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <label for="ib-filter" style="margin:0">Show</label>
+          <select id="ib-filter" onchange="renderInbox()" style="width:auto">
+            <option value="open">Open (not archived)</option>
+            <option value="all">All</option>
+            <option value="new">New only</option>
+          </select>
+          <button class="btn-ghost btn-sm" onclick="exportInbox()">Export CSV</button>
+        </div>
+      </div>
+      <div id="inbox-list"><div class="empty">Loading…</div></div>
+    </div>
+  </div>
+
   <!-- ── PLAYERS ── -->
-  <div class="panel active" id="panel-players">
+  <div class="panel" id="panel-players">
     <div class="stat-row" id="player-stats"></div>
     <div class="card">
       <h2 id="player-form-title">ADD PLAYER</h2>
@@ -311,7 +344,7 @@ label{display:block;font-family:'Barlow Condensed';font-size:11px;letter-spacing
       </div>
       <div class="field"><label>Choose image</label><input type="file" id="ph-file" accept="image/*"></div>
       <button class="btn" id="ph-btn" onclick="uploadPhoto()">Upload</button>
-      <p class="hint">Tip: keep photos under <code>300 KB</code> for fast loading on mobile data. Resize/compress before uploading (1080px wide is plenty). The uploaded path — e.g. <code>images/players/0002.jpg</code> — is what you paste into a player's photo field.</p>
+      <p class="hint">Tip: keep photos under <code>300 KB</code> for fast loading on mobile data. Resize/compress before uploading (1080px wide is plenty). The uploaded path — e.g. <code>media/images/players/0002.jpg</code> — is what you paste into a player's photo field.</p>
       <p class="hint" id="ph-result"></p>
     </div>
   </div>
@@ -322,14 +355,11 @@ label{display:block;font-family:'Barlow Condensed';font-size:11px;letter-spacing
 <script>
 'use strict';
 /* ═══════════ CONFIG ═══════════ */
-const OWNER = 'SpeakPower-commits';
-const REPO = 'CuePointe.github.io';
-const BRANCH = 'New-Test';
-const API = 'https://api.github.com';
 const ELO_K = 32;
+const DOCS = { 'players.json':'players', 'matches.json':'matches', 'schedule.json':'schedule', 'news.json':'news', 'fund.json':'fund' };
 
-let token = '';
-const store = {};   // {path: {data, sha}}
+const store = {};   // {'players.json': {data, version}, ...}
+let setupMode = false;
 
 /* ═══════════ HELPERS ═══════════ */
 const $ = id => document.getElementById(id);
@@ -350,108 +380,96 @@ function busy(btnId, on, label){
   else b.textContent = label || b.dataset.label;
 }
 
-/* UTF-8 safe base64 */
-function b64encode(str){
-  const bytes = new TextEncoder().encode(str);
-  let bin = '';
-  bytes.forEach(b => bin += String.fromCharCode(b));
-  return btoa(bin);
-}
-function b64decode(b64){
-  const bin = atob(b64.replace(/\n/g,''));
-  const bytes = Uint8Array.from(bin, c => c.charCodeAt(0));
-  return new TextDecoder().decode(bytes);
-}
-
-/* ═══════════ GITHUB API ═══════════ */
-async function gh(path, opts = {}){
-  const res = await fetch(`${API}${path}`, {
-    ...opts,
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Accept': 'application/vnd.github+json',
-      'X-GitHub-Api-Version': '2022-11-28',
-      ...(opts.headers || {})
-    }
-  });
+/* ═══════════ CUEPOINTE API ═══════════ */
+async function api(path, opts = {}){
+  const headers = { 'X-CP-Admin': '1', ...(opts.headers || {}) };
+  if(opts.json !== undefined){ headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(opts.json); }
+  let res;
+  try{ res = await fetch(path, { method: opts.method || 'GET', headers, body: opts.body, credentials: 'same-origin' }); }
+  catch(e){ throw new Error('No connection. Check your internet and try again.'); }
+  const data = await res.json().catch(() => ({}));
   if(!res.ok){
-    let msg = `GitHub error ${res.status}`;
-    try{ msg += ': ' + (await res.json()).message; }catch(e){}
-    const err = new Error(msg); err.status = res.status; throw err;
+    const err = new Error(data.error || `Request failed (${res.status})`);
+    err.status = res.status;
+    if(res.status === 401 && $('app-view').style.display === 'block'){ toast(err.message, true); setTimeout(()=>location.reload(), 1500); }
+    throw err;
   }
-  return res.status === 204 ? null : res.json();
-}
-
-async function loadFile(path){
-  const f = await gh(`/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}&t=${Date.now()}`);
-  const data = JSON.parse(b64decode(f.content));
-  store[path] = { data, sha: f.sha };
   return data;
 }
 
-async function saveFile(path, message){
-  const entry = store[path];
-  const body = {
-    message,
-    branch: BRANCH,
-    content: b64encode(JSON.stringify(entry.data, null, 4) + '\n')
-  };
-  if(entry.sha) body.sha = entry.sha;
+async function loadFile(path){
+  const r = await api('/api/admin/doc?keys=' + DOCS[path]);
+  const d = r.docs[DOCS[path]];
+  store[path] = { data: d.data, version: d.version };
+  return d.data;
+}
+
+/* Saves one or more documents together; all succeed or none do. */
+async function saveFiles(paths){
+  const docs = paths.map(p => ({ key: DOCS[p], data: store[p].data, version: store[p].version }));
   try{
-    const res = await gh(`/repos/${OWNER}/${REPO}/contents/${path}`, { method:'PUT', body: JSON.stringify(body) });
-    entry.sha = res.content.sha;
+    const r = await api('/api/admin/doc', { method: 'PUT', json: { docs } });
+    paths.forEach(p => { store[p].version = r.versions[DOCS[p]]; });
   }catch(e){
-    if(e.status === 409 || e.status === 422){
-      // someone else changed the file — refresh and ask user to retry
-      await loadFile(path);
-      throw new Error('The file changed on GitHub since it was loaded. Data refreshed — please redo your change and save again.');
-    }
+    if(e.status === 409){ await loadAll(); }
     throw e;
   }
 }
+async function saveFile(path){ return saveFiles([path]); }
 
 /* ═══════════ AUTH ═══════════ */
+function setLoginMode(setup){
+  setupMode = setup;
+  $('setup-code-field').style.display = setup ? 'block' : 'none';
+  $('password2-field').style.display = setup ? 'block' : 'none';
+  $('setup-help').style.display = setup ? 'block' : 'none';
+  $('remember-row').style.display = setup ? 'none' : '';
+  $('password-input').autocomplete = setup ? 'new-password' : 'current-password';
+  $('login-btn').textContent = setup ? 'Create Admin Account' : 'Sign In';
+}
 async function login(){
-  const t = $('token-input').value.trim();
-  if(!t){ return showLoginErr('Paste your GitHub token first.'); }
-  token = t;
+  const email = $('email-input').value.trim(), password = $('password-input').value;
+  if(!email || !password) return showLoginErr('Enter your email and password.');
+  $('login-err').style.display = 'none';
   $('login-btn').disabled = true;
+  const label = $('login-btn').textContent;
   $('login-btn').textContent = 'Checking…';
   try{
-    const me = await gh('/user');
-    await gh(`/repos/${OWNER}/${REPO}`);
-    if($('remember-me').checked) localStorage.setItem('cp_admin_token', t);
-    $('who').textContent = `Signed in as ${me.login}`;
-    $('login-view').style.display = 'none';
-    $('app-view').style.display = 'block';
-    await loadAll();
+    let me;
+    if(setupMode){
+      if(password !== $('password2-input').value) throw new Error('The two passwords do not match.');
+      me = await api('/api/admin/setup', { method:'POST', json:{ code: $('setup-code').value, email, password } });
+    }else{
+      me = await api('/api/admin/login', { method:'POST', json:{ email, password, remember: $('remember-me').checked } });
+    }
+    $('password-input').value = ''; $('password2-input').value = ''; $('setup-code').value = '';
+    await enterApp(me.email);
   }catch(e){
-    token = '';
-    showLoginErr(e.status === 401 ? 'Token rejected — check it was copied fully and has not expired.' :
-                 e.status === 404 ? 'Token works but cannot see the repository. Give it access to ' + OWNER + '/' + REPO + ' with Contents read & write.' :
-                 e.message);
+    showLoginErr(e.message);
   }finally{
     $('login-btn').disabled = false;
-    $('login-btn').textContent = 'Unlock Admin';
+    $('login-btn').textContent = label;
   }
 }
 function showLoginErr(msg){ const el = $('login-err'); el.textContent = msg; el.style.display = 'block'; }
-function logout(){
-  localStorage.removeItem('cp_admin_token');
-  token = '';
+async function logout(){
+  try{ await api('/api/admin/logout', { method:'POST' }); }catch(e){}
   location.reload();
+}
+async function enterApp(email){
+  $('who').textContent = `Signed in as ${email}`;
+  $('login-view').style.display = 'none';
+  $('app-view').style.display = 'block';
+  await Promise.all([loadAll(), loadInbox()]);
 }
 
 /* ═══════════ LOAD & RENDER ALL ═══════════ */
 async function loadAll(){
   try{
-    await Promise.all([
-      loadFile('players.json'),
-      loadFile('matches.json'),
-      loadFile('schedule.json'),
-      loadFile('news.json'),
-      loadFile('fund.json')
-    ]);
+    const r = await api('/api/admin/doc?keys=' + Object.values(DOCS).join(','));
+    for(const [path, key] of Object.entries(DOCS)){
+      store[path] = { data: r.docs[key].data, version: r.docs[key].version };
+    }
   }catch(e){
     toast('Could not load data: ' + e.message, true);
     return;
@@ -459,6 +477,76 @@ async function loadAll(){
   renderPlayers(); renderMatchForm(); renderMatches();
   renderEvents(); renderNews(); renderFund();
 }
+
+/* ═══════════ INBOX ═══════════ */
+const inbox = { type: 'registrations', rows: { registrations: [], messages: [], venues: [] } };
+const STATUS_LIST = ['new','contacted','confirmed','paid','rejected','archived'];
+const fmtWhen = s => { const d = new Date(s); return isNaN(d) ? '' : d.toLocaleString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }); };
+
+async function loadInbox(){
+  try{
+    const [a, b, c] = await Promise.all([
+      api('/api/admin/records?type=registrations'),
+      api('/api/admin/records?type=messages'),
+      api('/api/admin/records?type=venues')
+    ]);
+    inbox.rows = { registrations: a.rows, messages: b.rows, venues: c.rows };
+  }catch(e){
+    toast('Could not load inbox: ' + e.message, true);
+  }
+  renderInbox();
+}
+function showInbox(type){ inbox.type = type; renderInbox(); }
+function renderInbox(){
+  const newCount = t => inbox.rows[t].filter(r => r.status === 'new').length;
+  $('inbox-stats').innerHTML = `
+    <div class="stat-box"><div class="n">${newCount('registrations')}</div><div class="l">New Registrations</div></div>
+    <div class="stat-box"><div class="n">${newCount('messages')}</div><div class="l">New Messages</div></div>
+    <div class="stat-box"><div class="n">${newCount('venues')}</div><div class="l">New Venue Applications</div></div>`;
+  ['registrations','messages','venues'].forEach(t => $('ib-' + t).classList.toggle('active', t === inbox.type));
+  const f = $('ib-filter').value;
+  const rows = inbox.rows[inbox.type].filter(r => f === 'all' ? true : f === 'new' ? r.status === 'new' : r.status !== 'archived');
+  if(!rows.length){ $('inbox-list').innerHTML = '<div class="empty">Nothing here yet.</div>'; return; }
+  $('inbox-list').innerHTML = rows.map(r => {
+    let title, meta, body = '';
+    if(inbox.type === 'registrations'){
+      title = `${esc(r.first_name)} ${esc(r.last_name)} · ${esc(r.phone)}`;
+      meta = [r.event, r.skill, r.area || r.location, r.age ? 'Age ' + r.age : '', r.email, r.source ? 'Heard via ' + r.source : '', 'From ' + r.origin].filter(Boolean).map(esc).join(' · ');
+      if(r.comments) body = esc(r.comments);
+      if(r.payment_path) meta += ` · <a href="/api/admin/file?path=${encodeURIComponent(r.payment_path)}" target="_blank" rel="noopener">Payment screenshot ↗</a>`;
+    }else if(inbox.type === 'messages'){
+      title = `${esc(r.name)}${r.subject ? ' · ' + esc(r.subject) : ''}`;
+      meta = [r.phone, r.email, r.contact, 'From ' + r.origin].filter(Boolean).map(esc).join(' · ');
+      body = esc(r.message);
+    }else{
+      title = `${esc(r.venue)} · ${esc(r.name)}`;
+      meta = [r.phone, r.address, r.tables].filter(Boolean).map(esc).join(' · ');
+      if(r.notes) body = esc(r.notes);
+    }
+    const opts = STATUS_LIST.map(s => `<option value="${s}"${s === r.status ? ' selected' : ''}>${s}</option>`).join('');
+    return `<div class="list-item">
+      <div class="li-main">
+        <div class="li-title">${title} <span class="pill">${esc(r.status)}</span></div>
+        <div class="li-meta">${esc(fmtWhen(r.created_at))} · ${meta}</div>
+        ${body ? `<div class="li-meta" style="white-space:pre-wrap;margin-top:6px;color:rgba(255,255,255,0.8)">${body}</div>` : ''}
+      </div>
+      <div class="li-actions">
+        <label class="sr-only" for="st-${r.id}">Status</label>
+        <select id="st-${r.id}" onchange="setStatus(${Number(r.id)}, this.value)" style="width:auto">${opts}</select>
+      </div>
+    </div>`;
+  }).join('');
+}
+async function setStatus(id, status){
+  try{
+    await api('/api/admin/records', { method:'PATCH', json:{ type: inbox.type, id, status } });
+    const row = inbox.rows[inbox.type].find(r => Number(r.id) === id);
+    if(row) row.status = status;
+    toast('✓ Status updated.');
+    renderInbox();
+  }catch(e){ toast(e.message, true); }
+}
+function exportInbox(){ window.location.href = '/api/admin/records?type=' + inbox.type + '&format=csv'; }
 
 function switchTab(name){
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===name));
@@ -615,8 +703,7 @@ async function recordMatch(){
 
   busy('m-save-btn', true);
   try{
-    await saveFile('matches.json', `admin: record match ${winner.name} def. ${loser.name}`);
-    await saveFile('players.json', `admin: rating update after ${winner.name} def. ${loser.name}`);
+    await saveFiles(['matches.json', 'players.json']);
     toast(`✓ Recorded. ${winner.name} +${delta} → ${winner.rating}, ${loser.name} −${delta} → ${loser.rating}`);
     $('m-score').value=''; $('m-notes').value='';
     renderPlayers(); renderMatchForm(); renderMatches();
@@ -849,25 +936,16 @@ async function uploadPhoto(){
   if(!file) return toast('Choose an image first.', true);
   let name = $('ph-name').value.trim() || file.name;
   name = name.replace(/[^a-zA-Z0-9._-]/g,'-');
-  const path = $('ph-folder').value + '/' + name;
-  if(file.size > 2*1024*1024) return toast('Image is over 2 MB — please compress it first.', true);
-
-  const b64 = await new Promise((resolve,reject)=>{
-    const r = new FileReader();
-    r.onload = ()=>resolve(r.result.split(',')[1]);
-    r.onerror = reject;
-    r.readAsDataURL(file);
-  });
+  if(file.size > 4*1024*1024) return toast('Image is over 4 MB — please compress it first.', true);
 
   busy('ph-btn', true, 'Upload');
   try{
-    // include sha if replacing an existing file
-    let sha;
-    try{ sha = (await gh(`/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`)).sha; }catch(e){}
-    const body = { message:`admin: upload ${path}`, branch:BRANCH, content:b64 };
-    if(sha) body.sha = sha;
-    await gh(`/repos/${OWNER}/${REPO}/contents/${path}`, { method:'PUT', body: JSON.stringify(body) });
-    $('ph-result').innerHTML = `✓ Uploaded. Use this path: <code>${esc(path)}</code>`;
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('folder', $('ph-folder').value);
+    fd.append('name', name);
+    const r = await api('/api/admin/upload', { method:'POST', body: fd });
+    $('ph-result').innerHTML = `✓ Uploaded. Use this path: <code>${esc(r.path)}</code>`;
     toast('✓ Photo uploaded.');
     $('ph-file').value=''; $('ph-name').value='';
   }catch(e){ toast(e.message, true); }
@@ -875,12 +953,23 @@ async function uploadPhoto(){
 }
 
 /* ═══════════ INIT ═══════════ */
-const saved = localStorage.getItem('cp_admin_token');
-if(saved){
-  $('token-input').value = saved;
-  login();
-}
-$('token-input').addEventListener('keydown', e=>{ if(e.key==='Enter') login(); });
+localStorage.removeItem('cp_admin_token'); // clear any GitHub token saved by the old admin panel
+['email-input','password-input','password2-input','setup-code'].forEach(id =>
+  $(id).addEventListener('keydown', e => { if(e.key === 'Enter') login(); }));
+(async function init(){
+  try{
+    const me = await api('/api/admin/me');
+    await enterApp(me.email);
+    return;
+  }catch(e){ /* not signed in */ }
+  try{
+    const s = await api('/api/admin/setup');
+    if(s.needed){
+      setLoginMode(true);
+      if(!s.enabled) showLoginErr('Setup is not switched on yet: add ADMIN_SETUP_CODE in Vercel → Settings → Environment Variables, then redeploy.');
+    }
+  }catch(e){ showLoginErr(e.message); }
+})();
 </script>
 </body>
 </html>

@@ -1,0 +1,13 @@
+{
+  "name": "cuepointe",
+  "private": true,
+  "type": "module",
+  "description": "CuePointe Action Pool website: static pages plus Vercel Functions backed by Neon Postgres and Vercel Blob.",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "1.2.1",
+    "@vercel/blob": "2.9.0"
+  }
+}

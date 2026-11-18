@@ -1183,7 +1183,11 @@ function submitReg() {
   const btn = document.getElementById('reg-btn');
   btn.textContent = 'Submitting...';
   btn.disabled = true;
-  setTimeout(() => {
+  const val = id => (document.getElementById(id) || {}).value || '';
+  cpPost('/api/register', {
+    origin: 'home', firstName: val('rf'), lastName: val('rl'), phone: val('rp'), email: val('re'),
+    area: val('ra'), age: val('rage'), skill: val('rsk'), event: val('rev'), source: val('rhs'), comments: val('rn')
+  }).then(() => {
     btn.textContent = '✓ Registered!';
     btn.style.background = 'var(--green)';
     document.getElementById('reg-ok').style.display = 'block';
@@ -1198,7 +1202,20 @@ function submitReg() {
       btn.style.background = '';
       btn.disabled = false;
     }, 4000);
-  }, 1200);
+  }).catch(err => {
+    alert(err.message);
+    btn.textContent = 'Submit Registration';
+    btn.disabled = false;
+  });
+}
+
+// Send a form to the CuePointe API; rejects with a readable message.
+function cpPost(url, body) {
+  return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    .then(r => r.json().catch(() => ({})).then(d => {
+      if (!r.ok) throw new Error(d.error || 'Could not send right now. Please try again or message us on WhatsApp.');
+      return d;
+    }), () => { throw new Error('No connection. Please check your internet and try again.'); });
 }
 
 // Contact form
@@ -1209,7 +1226,10 @@ function submitContact() {
   const btn = document.getElementById('c-btn');
   btn.textContent = 'Sending...';
   btn.disabled = true;
-  setTimeout(() => {
+  cpPost('/api/contact', {
+    origin: 'home', name: n, contact: document.getElementById('cc').value.trim(),
+    subject: document.getElementById('cs').value, message: m
+  }).then(() => {
     btn.textContent = '✓ Sent!';
     document.getElementById('c-ok').style.display = 'block';
     setTimeout(() => {
@@ -1217,7 +1237,11 @@ function submitContact() {
       btn.textContent = 'Send Message';
       btn.disabled = false;
     }, 4000);
-  }, 1000);
+  }).catch(err => {
+    alert(err.message);
+    btn.textContent = 'Send Message';
+    btn.disabled = false;
+  });
 }
 
 // Animate win bars on scroll
@@ -1340,6 +1364,13 @@ fetch('schedule.json')
     fill('sch-weekly', 'weekly');
     fill('sch-league', 'league');
     fill('sch-champ', 'championship');
+    // Registration dropdown follows the live schedule (closed / TBA events are left out).
+    const regSel = document.getElementById('rev');
+    const openEvents = events.filter(e => !['closed', 'tba'].includes(e.status));
+    if (regSel && openEvents.length) {
+      regSel.innerHTML = '<option value="">Select an event</option>' + openEvents
+        .map(e => '<option>' + escHtml(e.title + (e.date ? ' – ' + e.date : '')) + '</option>').join('');
+    }
   })
   .catch(() => {});
 </script>

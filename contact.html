@@ -210,8 +210,16 @@ footer p{font-size:12px;color:rgba(255,255,255,0.6)}
     const m=document.getElementById('cmsg').value.trim();
     if(!n||!p||!m){alert('Please fill in your name, phone number, and message.');return;}
     const btn=document.getElementById('csub');
-    btn.textContent='Sending...';btn.style.opacity='0.7';
-    setTimeout(()=>{btn.textContent='✓ Sent!';btn.style.background='var(--green)';btn.style.color='#fff';btn.style.opacity='1';document.getElementById('c-ok').style.display='block';},1000);
+    btn.textContent='Sending...';btn.style.opacity='0.7';btn.disabled=true;
+    cpPost('/api/contact',{origin:'contact',name:n,phone:p,email:document.getElementById('cem').value.trim(),
+      subject:document.getElementById('subject').value,message:m})
+    .then(()=>{btn.textContent='✓ Sent!';btn.style.background='var(--green)';btn.style.color='#fff';btn.style.opacity='1';document.getElementById('c-ok').style.display='block';})
+    .catch(err=>{alert(err.message);btn.textContent='Send Message';btn.style.opacity='1';btn.disabled=false;});
+  }
+  function cpPost(url, body){
+    return fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+      .then(r=>r.json().catch(()=>({})).then(d=>{if(!r.ok)throw new Error(d.error||'Could not send right now. Please try again or message us on WhatsApp.');return d;}),
+            ()=>{throw new Error('No connection. Please check your internet and try again.');});
   }
 </script>
 

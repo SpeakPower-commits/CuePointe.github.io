@@ -341,6 +341,11 @@ function ssGo(id,index){
   document.querySelectorAll(`#${id}-dots .ss-dot`).forEach((d,i)=>d.classList.toggle('active',i===s.current));
 }
 function ssMove(id,dir){const s=ssState[id];if(s)ssGo(id,s.current+dir);}
+  function cpPost(url, body){
+    return fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+      .then(r=>r.json().catch(()=>({})).then(d=>{if(!r.ok)throw new Error(d.error||'Could not send right now. Please try again or message us on WhatsApp.');return d;}),
+            ()=>{throw new Error('No connection. Please check your internet and try again.');});
+  }
 document.querySelectorAll('.slideshow').forEach(el=>ssInit(el.id));
 
 function submitVenue(){
@@ -349,8 +354,12 @@ function submitVenue(){
   const p=document.getElementById('hphone').value.trim();
   if(!n||!v||!p){alert('Please fill in your name, venue name, and phone number.');return;}
   const btn=document.querySelector('.hf-submit');
-  btn.textContent='Submitting...';btn.style.opacity='0.7';
-  setTimeout(()=>{btn.textContent='✓ Submitted!';btn.style.background='var(--green)';btn.style.color='#fff';btn.style.opacity='1';document.getElementById('venue-ok').style.display='block';},1000);
+  const label=btn.textContent;
+  btn.textContent='Submitting...';btn.style.opacity='0.7';btn.disabled=true;
+  cpPost('/api/venue',{name:n,venue:v,phone:p,address:document.getElementById('haddr').value.trim(),
+    tables:document.getElementById('htables').value,notes:document.getElementById('hnotes').value.trim()})
+  .then(()=>{btn.textContent='✓ Submitted!';btn.style.background='var(--green)';btn.style.color='#fff';btn.style.opacity='1';document.getElementById('venue-ok').style.display='block';})
+  .catch(err=>{alert(err.message);btn.textContent=label;btn.style.opacity='1';btn.disabled=false;});
 }
 
 const obs=new IntersectionObserver((e)=>{e.forEach((en,i)=>{if(en.isIntersecting)setTimeout(()=>en.target.classList.add('visible'),i*60)})},{threshold:0.08});
