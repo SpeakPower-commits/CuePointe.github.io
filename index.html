@@ -136,8 +136,7 @@ h1{font-variation-settings:'wdth' 68;font-weight:900;font-size:clamp(40px,7vw,78
 
 /* next-event ticket */
 .ticket{background:var(--paper);color:var(--ink);border-radius:10px;padding:22px 22px 18px;position:relative;align-self:start;box-shadow:0 12px 30px rgba(0,0,0,.35)}
-.ticket::before{content:"";position:absolute;left:0;right:0;top:56px;border-top:2px dashed rgba(16,20,15,.25)}
-.ticket .tlabel{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--orange-ink);text-transform:uppercase;letter-spacing:.06em;height:34px}
+.ticket .tlabel{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--orange-ink);text-transform:uppercase;letter-spacing:.06em;padding-bottom:12px;margin:0 -22px 12px;padding-inline:22px;border-bottom:2px dashed rgba(16,20,15,.25)}
 .ticket h2{font-variation-settings:'wdth' 72;font-weight:900;font-size:30px;line-height:1.05;margin:4px 0 12px}
 .ticket dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:16px}
 .ticket dt{font-family:var(--mono);font-size:13px;color:var(--ink-soft);padding-top:2px}
@@ -408,9 +407,25 @@ function toggleNav(btn){
 
 /* Next event + fixtures, straight from the schedule the admin panel edits */
 const LIVE = ['featured', 'open', 'upcoming'];
+const MONTHS = ['january','february','march','april','may','june','july','august','september','october','november','december'];
+/* Reads dates written for people ("April 26, 2026 · 2PM", "April – June 2026", "July 12–13, 2026").
+   Returns the LAST day the event could run, or null if no year is given. */
+function endDate(text){
+  const t = String(text || '').toLowerCase();
+  const year = (t.match(/\b(20\d\d)\b/g) || []).pop();
+  if (!year) return null;
+  let month = -1, at = -1;
+  MONTHS.forEach((m, i) => { const p = t.lastIndexOf(m.slice(0, 3)); if (p > at) { at = p; month = i; } });
+  if (month < 0) return new Date(Number(year), 11, 31, 23, 59);
+  const after = t.slice(at).replace(/\b20\d\d\b/g, '');
+  const days = after.match(/\b([0-3]?\d)\b/g);
+  const day = days ? Number(days[days.length - 1]) : new Date(Number(year), month + 1, 0).getDate();
+  return new Date(Number(year), month, day, 23, 59);
+}
+const isUpcoming = e => { const d = endDate(e.date); return !d || d.getTime() >= Date.now(); };
 const CAT = { weekly: 'Weekly knockout', league: 'League', championship: 'Championship' };
 getJSON('schedule.json').then(d => {
-  const events = (d.events || []).filter(e => LIVE.includes(e.status));
+  const events = (d.events || []).filter(e => LIVE.includes(e.status) && isUpcoming(e));
   const next = events.find(e => e.status === 'featured') || events.find(e => e.status === 'open') || events[0];
   if (next) {
     document.getElementById('next-label').textContent = (CAT[next.category] || 'Next event') + ' · ' + (next.status === 'open' ? 'registration open' : next.status);
