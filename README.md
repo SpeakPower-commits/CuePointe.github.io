@@ -3,7 +3,7 @@
 
 > Structured leagues. Digital rankings. Real pathways for talent — from Kabalagala to the world.
 
-🌐 **Live Site:** [cuepointe.github.io](https://cuepointe.github.io)
+🌐 **Live Site:** [cuepointe.vercel.app](https://cuepointe.vercel.app)
 📍 **Base:** Kabalagala, Kampala, Uganda
 📧 **Email:** cuepointe@gmail.com
 📱 **WhatsApp:** +256 743 482 588
@@ -21,7 +21,7 @@ We run weekly knockouts, seasonal leagues, and community tournaments across Kamp
 ## Site Structure
 
 ```
-cuepointe.github.io/
+cuepointe.vercel.app/
 │
 ├── index.html              # Homepage — hero slideshow, schedule, rankings, registration
 ├── about.html              # Our story, team, partners & sponsors
@@ -68,7 +68,7 @@ cuepointe.github.io/
 
 ## How to Update Content — Admin Panel (recommended)
 
-Open **`https://cuepointe.github.io/admin.html`** on any device.
+Open **`https://cuepointe.vercel.app/admin.html`** on any device.
 
 **One-time setup:** create a GitHub fine-grained personal access token at
 [github.com/settings/personal-access-tokens/new](https://github.com/settings/personal-access-tokens/new)
@@ -214,7 +214,7 @@ Replace `images/hero-1.jpg` through `images/hero-5.jpg` with new images. Recomme
 
 | Platform | Link |
 |----------|------|
-| 🌐 Website | [cuepointe.github.io](https://cuepointe.github.io) |
+| 🌐 Website | [cuepointe.vercel.app](https://cuepointe.vercel.app) |
 | 📘 Facebook | [facebook.com/CuePointe](https://www.facebook.com/CuePointe) |
 | 📸 Instagram | [instagram.com/cuepointe](https://www.instagram.com/cuepointe) |
 | 🎵 TikTok | [tiktok.com/@cuepointe](https://www.tiktok.com/@cuepointe) |

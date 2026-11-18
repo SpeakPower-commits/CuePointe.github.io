@@ -5,4 +5,4 @@ User-agent: *
 Allow: /
 
 # Point crawlers to your sitemap
-Sitemap: https://cuepointe.github.io/sitemap.xml
+Sitemap: https://cuepointe.vercel.app/sitemap.xml
