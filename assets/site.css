@@ -101,7 +101,7 @@ h2.h2{font-variation-settings:'wdth' 68;font-weight:900;font-size:clamp(30px,4.2
 .card-paper{background:var(--paper);color:var(--ink);border-radius:12px;padding:clamp(20px,3vw,28px)}
 .card-paper h3{font-variation-settings:'wdth' 75;font-weight:900;font-size:24px;margin-bottom:8px;color:var(--ink)}
 .card-paper p,.card-paper li{font-size:17px;color:var(--ink)}
-.card-paper a{font-weight:700;color:var(--ink)}
+.card-paper a:not(.btn){font-weight:700;color:var(--ink)}
 .card-dark{background:#0B1F18;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:clamp(20px,3vw,28px)}
 .card-dark h3{font-variation-settings:'wdth' 75;font-weight:800;font-size:22px;color:#fff;margin-bottom:6px}
 .card-dark p{color:var(--muted)}
@@ -175,3 +175,4 @@ table.tbl{width:100%;border-collapse:collapse;font-size:15px;min-width:560px}
 
 .card-paper h2.h3{font-variation-settings:"wdth" 75;font-weight:900;font-size:24px;margin-bottom:8px;color:var(--ink)}
 .card-dark h2.h3{font-variation-settings:"wdth" 75;font-weight:800;font-size:22px;color:#fff;margin-bottom:6px}
+.fixtures li.empty{display:block}
