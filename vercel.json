@@ -14,6 +14,7 @@
     { "source": "/schedule.json", "destination": "/api/data?doc=schedule" },
     { "source": "/news.json", "destination": "/api/data?doc=news" },
     { "source": "/fund.json", "destination": "/api/data?doc=fund" },
+    { "source": "/about.json", "destination": "/api/data?doc=about" },
     { "source": "/media/:path*", "destination": "/api/media?path=public/:path*" }
   ],
   "headers": [

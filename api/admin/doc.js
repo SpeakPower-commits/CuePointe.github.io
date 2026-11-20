@@ -12,8 +12,26 @@ const SHAPE = {
   matches: d => d && Array.isArray(d.matches),
   schedule: d => d && Array.isArray(d.events),
   news: d => d && Array.isArray(d.posts),
-  fund: d => d && d.stats && typeof d.stats === 'object' && Array.isArray(d.entries)
+  fund: d => d && d.stats && typeof d.stats === 'object' && Array.isArray(d.entries),
+  about: d => d && Array.isArray(d.photos) && Array.isArray(d.partners) && validAbout(d)
 };
+
+// About-page images must be our own uploads; partner links must be ordinary web addresses.
+const OWN_IMAGE = /^(media|images)\/[A-Za-z0-9/_.-]{1,200}$/;
+const WEB = /^https?:\/\/[^\s"'<>]{3,300}$/i;
+function validAbout(d) {
+  if (d.photos.length > 60 || d.partners.length > 60) return false;
+  for (const p of d.photos) {
+    if (!p || !OWN_IMAGE.test(String(p.src || '')) || String(p.caption || '').length > 200) return false;
+  }
+  for (const p of d.partners) {
+    if (!p || !String(p.name || '').trim() || String(p.name).length > 120) return false;
+    if (p.logo && !OWN_IMAGE.test(String(p.logo))) return false;
+    if (p.url && !WEB.test(String(p.url))) return false;
+    if (String(p.blurb || '').length > 400) return false;
+  }
+  return true;
+}
 
 export async function GET(req) {
   try {

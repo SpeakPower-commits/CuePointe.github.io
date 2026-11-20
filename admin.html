@@ -62,6 +62,9 @@ label{display:block;font-family:'Barlow Condensed';font-size:11px;letter-spacing
 .empty{padding:30px;text-align:center;color:rgba(255,255,255,0.35);font-family:'Barlow Condensed';letter-spacing:2px;text-transform:uppercase;font-size:12px}
 .hint{font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7;margin-top:10px}
 .hint code{color:var(--gold);font-size:11px}
+.thumb{width:64px;height:64px;object-fit:cover;border-radius:4px;background:#000;flex:none}
+.thumb.logo{object-fit:contain;background:#FFFFCB;padding:4px}
+.li-row{display:flex;align-items:center;gap:12px;flex:1;min-width:200px}
 
 /* TOAST */
 #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--gold);color:var(--white);padding:14px 26px;border-radius:6px;font-size:14px;z-index:999;transition:transform .3s;max-width:90vw}
@@ -128,6 +131,7 @@ label{display:block;font-family:'Barlow Condensed';font-size:11px;letter-spacing
     <button class="tab" data-tab="schedule" onclick="switchTab('schedule')">Schedule</button>
     <button class="tab" data-tab="news" onclick="switchTab('news')">News</button>
     <button class="tab" data-tab="fund" onclick="switchTab('fund')">Talent Fund</button>
+    <button class="tab" data-tab="about" onclick="switchTab('about')">About Page</button>
     <button class="tab" data-tab="photos" onclick="switchTab('photos')">Photos</button>
   </div>
 
@@ -325,6 +329,44 @@ label{display:block;font-family:'Barlow Condensed';font-size:11px;letter-spacing
     </div>
   </div>
 
+  <!-- ── ABOUT PAGE: gallery + partners ── -->
+  <div class="panel" id="panel-about">
+    <div class="card">
+      <h2>ADD A PHOTO TO THE ABOUT PAGE</h2>
+      <div class="grid2">
+        <div class="field"><label for="ap-file">Photo</label><input type="file" id="ap-file" accept="image/jpeg,image/png,image/webp"></div>
+        <div class="field"><label for="ap-caption">Caption (optional)</label><input id="ap-caption" maxlength="200" placeholder="Weekly knockout, Kansanga"></div>
+      </div>
+      <button class="btn" id="ap-btn" onclick="addAboutPhoto()">Upload &amp; Add Photo</button>
+      <p class="hint">Photos show in the gallery on the About page, newest first. Large photos are shrunk automatically before upload.</p>
+    </div>
+    <div class="card">
+      <h2>GALLERY</h2>
+      <div id="about-photos"><div class="empty">Loading…</div></div>
+    </div>
+    <div class="card">
+      <h2 id="pt-form-title">ADD PARTNER</h2>
+      <input type="hidden" id="pt-editing" value="">
+      <div class="grid2">
+        <div class="field"><label for="pt-name">Partner name *</label><input id="pt-name" maxlength="120" placeholder="Organisation name"></div>
+        <div class="field"><label for="pt-url">Website</label><input id="pt-url" maxlength="300" placeholder="https://example.org"></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="pt-logo">Logo</label><input type="file" id="pt-logo" accept="image/jpeg,image/png,image/webp"></div>
+        <div class="field"><label for="pt-blurb">How they support CuePointe (optional)</label><input id="pt-blurb" maxlength="400" placeholder="Sponsors the weekly prize pool"></div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn" id="pt-save-btn" onclick="savePartner()">Save Partner</button>
+        <button class="btn-ghost" id="pt-cancel-btn" onclick="resetPartnerForm()" style="display:none">Cancel Edit</button>
+      </div>
+      <p class="hint">Partners appear on the About page with their logo and a link to their website. Leave the logo empty when editing to keep the current one.</p>
+    </div>
+    <div class="card">
+      <h2>PARTNERS ON THE PAGE</h2>
+      <div id="partner-list"><div class="empty">Loading…</div></div>
+    </div>
+  </div>
+
   <!-- ── PHOTOS ── -->
   <div class="panel" id="panel-photos">
     <div class="card">
@@ -356,7 +398,7 @@ label{display:block;font-family:'Barlow Condensed';font-size:11px;letter-spacing
 'use strict';
 /* ═══════════ CONFIG ═══════════ */
 const ELO_K = 32;
-const DOCS = { 'players.json':'players', 'matches.json':'matches', 'schedule.json':'schedule', 'news.json':'news', 'fund.json':'fund' };
+const DOCS = { 'players.json':'players', 'matches.json':'matches', 'schedule.json':'schedule', 'news.json':'news', 'fund.json':'fund', 'about.json':'about' };
 
 const store = {};   // {'players.json': {data, version}, ...}
 let setupMode = false;
@@ -475,7 +517,7 @@ async function loadAll(){
     return;
   }
   renderPlayers(); renderMatchForm(); renderMatches();
-  renderEvents(); renderNews(); renderFund();
+  renderEvents(); renderNews(); renderFund(); renderAbout();
 }
 
 /* ═══════════ INBOX ═══════════ */
@@ -928,6 +970,119 @@ async function deleteFundEntry(i){
     await saveFile('fund.json', `admin: remove ledger entry — ${e.desc}`);
     toast('✓ Entry removed.'); renderFund();
   }catch(e2){ toast(e2.message, true); }
+}
+
+/* ═══════════ ABOUT PAGE ═══════════ */
+const about = () => store['about.json'].data;
+
+/* shrink big photos in the browser before upload */
+function shrinkImage(file, maxSide){
+  if(!/^image\/(jpeg|png|webp)$/.test(file.type) || file.size < 700*1024) return Promise.resolve(file);
+  return new Promise(resolve => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      const s = Math.min(1, maxSide / Math.max(img.width, img.height));
+      const c = document.createElement('canvas'); c.width = Math.round(img.width*s); c.height = Math.round(img.height*s);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+      c.toBlob(b => resolve(b && b.size < file.size ? new File([b], file.name.replace(/\.[^.]+$/,'') + '.jpg', {type:'image/jpeg'}) : file), 'image/jpeg', 0.85);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+    img.src = url;
+  });
+}
+async function uploadTo(folder, file){
+  const f = await shrinkImage(file, 1800);
+  if(f.size > 4*1024*1024) throw new Error('Image is over 4 MB even after shrinking. Please use a smaller photo.');
+  const fd = new FormData();
+  fd.append('file', f);
+  fd.append('folder', folder);
+  fd.append('name', Date.now().toString(36) + '-' + f.name.replace(/[^a-zA-Z0-9._-]/g,'-').slice(-60));
+  return (await api('/api/admin/upload', { method:'POST', body: fd })).path;
+}
+
+function renderAbout(){
+  const a = about();
+  $('about-photos').innerHTML = a.photos.length ? a.photos.map((p,i)=>`
+    <div class="list-item">
+      <div class="li-row"><img class="thumb" src="${esc(p.src)}" alt=""><div><div class="li-title">${esc(p.caption || 'No caption')}</div><div class="li-meta">${esc(p.src)}</div></div></div>
+      <div class="li-actions">
+        ${i>0 ? `<button class="btn-ghost btn-sm" onclick="moveAboutPhoto(${i},-1)" aria-label="Move up">Up</button>` : ''}
+        <button class="btn-danger" onclick="deleteAboutPhoto(${i})">Remove</button>
+      </div>
+    </div>`).join('') : '<div class="empty">No photos yet. Add the first one above.</div>';
+  $('partner-list').innerHTML = a.partners.length ? a.partners.map((p,i)=>`
+    <div class="list-item">
+      <div class="li-row">${p.logo ? `<img class="thumb logo" src="${esc(p.logo)}" alt="">` : ''}<div><div class="li-title">${esc(p.name)}</div><div class="li-meta">${esc(p.url || 'No website')}${p.blurb ? ' · ' + esc(p.blurb) : ''}</div></div></div>
+      <div class="li-actions">
+        <button class="btn-ghost btn-sm" onclick="editPartner(${i})">Edit</button>
+        <button class="btn-danger" onclick="deletePartner(${i})">Delete</button>
+      </div>
+    </div>`).join('') : '<div class="empty">No partners yet.</div>';
+}
+
+async function addAboutPhoto(){
+  const file = $('ap-file').files[0];
+  if(!file) return toast('Choose a photo first.', true);
+  busy('ap-btn', true);
+  try{
+    const src = await uploadTo('images/about', file);
+    about().photos.unshift({ src, caption: $('ap-caption').value.trim() });
+    await saveFile('about.json');
+    toast('✓ Photo added to the About page.');
+    $('ap-file').value = ''; $('ap-caption').value = '';
+    renderAbout();
+  }catch(e){ toast(e.message, true); }
+  finally{ busy('ap-btn', false, 'Upload & Add Photo'); }
+}
+async function moveAboutPhoto(i, dir){
+  const ph = about().photos, j = i + dir;
+  if(j < 0 || j >= ph.length) return;
+  [ph[i], ph[j]] = [ph[j], ph[i]];
+  try{ await saveFile('about.json'); renderAbout(); }catch(e){ toast(e.message, true); }
+}
+async function deleteAboutPhoto(i){
+  if(!confirm('Remove this photo from the About page?')) return;
+  about().photos.splice(i, 1);
+  try{ await saveFile('about.json'); toast('✓ Photo removed.'); renderAbout(); }catch(e){ toast(e.message, true); }
+}
+
+function editPartner(i){
+  const p = about().partners[i]; if(!p) return;
+  $('pt-editing').value = String(i);
+  $('pt-name').value = p.name || ''; $('pt-url').value = p.url || ''; $('pt-blurb').value = p.blurb || ''; $('pt-logo').value = '';
+  $('pt-form-title').textContent = 'EDIT PARTNER — ' + String(p.name || '').toUpperCase();
+  $('pt-cancel-btn').style.display = 'inline-block';
+}
+function resetPartnerForm(){
+  $('pt-editing').value = ''; $('pt-name').value = ''; $('pt-url').value = ''; $('pt-blurb').value = ''; $('pt-logo').value = '';
+  $('pt-form-title').textContent = 'ADD PARTNER'; $('pt-cancel-btn').style.display = 'none';
+}
+async function savePartner(){
+  const name = $('pt-name').value.trim();
+  let url = $('pt-url').value.trim();
+  if(!name) return toast('Partner name is required.', true);
+  if(url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
+  if(url && !/^https?:\/\/[^\s"'<>]{3,300}$/i.test(url)) return toast('That website address does not look right.', true);
+  const editing = $('pt-editing').value;
+  const list = about().partners;
+  const old = editing !== '' ? list[parseInt(editing,10)] : null;
+  busy('pt-save-btn', true);
+  try{
+    const file = $('pt-logo').files[0];
+    const logo = file ? await uploadTo('images/partners', file) : (old ? old.logo || '' : '');
+    const obj = { name, url, logo, blurb: $('pt-blurb').value.trim() };
+    if(old) list[parseInt(editing,10)] = obj; else list.push(obj);
+    await saveFile('about.json');
+    toast('✓ ' + name + ' saved and live.');
+    resetPartnerForm(); renderAbout();
+  }catch(e){ toast(e.message, true); }
+  finally{ busy('pt-save-btn', false, 'Save Partner'); }
+}
+async function deletePartner(i){
+  const p = about().partners[i];
+  if(!p || !confirm('Remove ' + p.name + ' from the About page?')) return;
+  about().partners.splice(i, 1);
+  try{ await saveFile('about.json'); toast('✓ Partner removed.'); renderAbout(); }catch(e){ toast(e.message, true); }
 }
 
 /* ═══════════ PHOTOS ═══════════ */

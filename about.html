@@ -35,6 +35,20 @@
 @media (max-width:520px){.values{grid-template-columns:1fr}}
 .values h3{font-size:20px}
 .founder .role{font:600 13px var(--mono);color:var(--orange-ink);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.gallery figure{margin:0;background:#0B1F18;border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden}
+.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.gallery figcaption{padding:10px 14px;color:var(--muted);font-size:15px}
+.gallery figure:first-child{grid-column:span 2}
+@media (max-width:640px){.gallery figure:first-child{grid-column:auto}}
+.partners{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.partner{display:flex;flex-direction:column;background:var(--paper);color:var(--ink);border-radius:12px;padding:20px;text-decoration:none;border:2px solid transparent;transition:border-color .2s}
+a.partner:hover,a.partner:focus-visible{border-color:var(--orange)}
+.partner .plogo{height:72px;display:flex;align-items:center;margin-bottom:14px}
+.partner .plogo img{max-height:72px;max-width:180px;object-fit:contain}
+.partner h3{font-variation-settings:'wdth' 75;font-weight:900;font-size:22px;line-height:1.1}
+.partner p{font-size:15px;color:var(--ink-soft);margin-top:6px;flex:1}
+.partner .visit{font:600 13px var(--mono);color:var(--orange-ink);margin-top:12px}
 </style>
 </head>
 <body>
@@ -78,6 +92,12 @@
     </div>
   </div>
 </section>
+<section class="sec" aria-labelledby="gallery-title" id="gallery-sec" hidden>
+  <div class="wrap">
+    <h2 class="h2" id="gallery-title">On the table</h2>
+    <div class="gallery" id="gallery"></div>
+  </div>
+</section>
 <section class="sec" aria-labelledby="values-title">
   <div class="wrap">
     <h2 class="h2" id="values-title">What we hold to</h2>
@@ -87,6 +107,12 @@
       <div class="card-dark"><h3>Opportunity</h3><p>Doors open for talent, whatever a player's background.</p></div>
       <div class="card-dark"><h3>Accountability</h3><p>Public results and a public <a class="more" href="talent-fund.html">fund ledger</a>.</p></div>
     </div>
+  </div>
+</section>
+<section class="sec" aria-labelledby="partners-title" id="partners-sec" hidden>
+  <div class="wrap">
+    <h2 class="h2" id="partners-title">Our partners</h2>
+    <div class="partners" id="partners"></div>
   </div>
 </section>
 <section class="sec">
@@ -136,5 +162,33 @@
 <a class="wa" href="https://wa.me/256743482588?text=Hi%20CuePointe!" target="_blank" rel="noopener">Chat on WhatsApp</a>
 
 <script src="assets/site.js"></script>
+<script>
+'use strict';
+const { esc } = cp;
+const OWN = /^(media|images)\/[A-Za-z0-9/_.-]{1,200}$/;
+const WEB = /^https?:\/\/[^\s"'<>]{3,300}$/i;
+cp.getJSON('about.json').then(d => {
+  const photos = (d.photos || []).filter(p => OWN.test(String(p.src || '')));
+  if (photos.length) {
+    document.getElementById('gallery').innerHTML = photos.map(p => `<figure>
+      <img src="${esc(p.src)}" alt="${esc(p.caption || 'CuePointe match night')}" loading="lazy">
+      ${p.caption ? `<figcaption>${esc(p.caption)}</figcaption>` : ''}
+    </figure>`).join('');
+    document.getElementById('gallery-sec').hidden = false;
+  }
+  const partners = (d.partners || []).filter(p => p && p.name);
+  if (partners.length) {
+    document.getElementById('partners').innerHTML = partners.map(p => {
+      const url = WEB.test(String(p.url || '')) ? String(p.url) : '';
+      const logo = OWN.test(String(p.logo || '')) ? String(p.logo) : '';
+      const inner = `<div class="plogo">${logo ? `<img src="${esc(logo)}" alt="${esc(p.name)} logo" loading="lazy">` : ''}</div>
+        <h3>${esc(p.name)}</h3>${p.blurb ? `<p>${esc(p.blurb)}</p>` : '<p></p>'}
+        ${url ? `<span class="visit">Visit ${esc(url.replace(/^https?:\/\/(www\.)?/i, '').replace(/\/$/, ''))} ↗</span>` : ''}`;
+      return url ? `<a class="partner" href="${esc(url)}" target="_blank" rel="noopener">${inner}</a>` : `<div class="partner">${inner}</div>`;
+    }).join('');
+    document.getElementById('partners-sec').hidden = false;
+  }
+}).catch(() => {});
+</script>
 </body>
 </html>
