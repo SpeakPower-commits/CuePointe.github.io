@@ -125,6 +125,7 @@ Plain **HTML, CSS and JavaScript** pages (no framework, no build step), served b
 ├── lib/                             database, security and helpers
 ├── data/seed/                       starting data, copied into the database once
 ├── docs/brand/                      logo, fireball banner and icon for this README
+├── tools/                           page template + artwork generators (node tools/build-pages.cjs)
 └── vercel.json                      routes, security headers, caching
 ```
 
