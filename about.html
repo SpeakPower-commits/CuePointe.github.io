@@ -35,7 +35,7 @@
 @media (max-width:520px){.values{grid-template-columns:1fr}}
 .values h3{font-size:20px}
 .founder .role{font:600 13px var(--mono);color:var(--orange-ink);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
-.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;align-items:start}
 .gallery figure{margin:0;background:#0B1F18;border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden}
 .gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
 .gallery figcaption{padding:10px 14px;color:var(--muted);font-size:15px}
@@ -181,7 +181,7 @@ cp.getJSON('about.json').then(d => {
     document.getElementById('partners').innerHTML = partners.map(p => {
       const url = WEB.test(String(p.url || '')) ? String(p.url) : '';
       const logo = OWN.test(String(p.logo || '')) ? String(p.logo) : '';
-      const inner = `<div class="plogo">${logo ? `<img src="${esc(logo)}" alt="${esc(p.name)} logo" loading="lazy">` : ''}</div>
+      const inner = `${logo ? `<div class="plogo"><img src="${esc(logo)}" alt="${esc(p.name)} logo" loading="lazy"></div>` : ''}
         <h3>${esc(p.name)}</h3>${p.blurb ? `<p>${esc(p.blurb)}</p>` : '<p></p>'}
         ${url ? `<span class="visit">Visit ${esc(url.replace(/^https?:\/\/(www\.)?/i, '').replace(/\/$/, ''))} ↗</span>` : ''}`;
       return url ? `<a class="partner" href="${esc(url)}" target="_blank" rel="noopener">${inner}</a>` : `<div class="partner">${inner}</div>`;

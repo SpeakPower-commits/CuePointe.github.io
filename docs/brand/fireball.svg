@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="CuePointe fireball 8-ball">
+  <defs>
+    <linearGradient id="if1" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#B81E05"/><stop offset=".45" stop-color="#F0410C"/><stop offset="1" stop-color="#FF7A1A" stop-opacity=".85"/>
+    </linearGradient>
+    <linearGradient id="if2" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#FF6A10"/><stop offset="1" stop-color="#FFB12E"/>
+    </linearGradient>
+    <linearGradient id="if3" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#FFD254"/><stop offset="1" stop-color="#FFEFA8"/>
+    </linearGradient>
+    <linearGradient id="if4" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#FFF6D5"/><stop offset="1" stop-color="#FFFFFF" stop-opacity=".9"/>
+    </linearGradient>
+    <radialGradient id="iglow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#FF7A1A" stop-opacity=".6"/><stop offset=".55" stop-color="#FF5A14" stop-opacity=".18"/><stop offset="1" stop-color="#FF5A14" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="iball" cx="38%" cy="34%" r="70%">
+      <stop offset="0" stop-color="#262626"/><stop offset=".4" stop-color="#0A0A0A"/><stop offset="1" stop-color="#000000"/>
+    </radialGradient>
+    <radialGradient id="ishine" cx="32%" cy="25%" r="22%">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".7"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="irim" cx="70%" cy="72%" r="55%">
+      <stop offset=".72" stop-color="#FF7A1A" stop-opacity="0"/><stop offset="1" stop-color="#FF7A1A" stop-opacity=".32"/>
+    </radialGradient>
+  </defs>
+  <circle cx="156" cy="156" r="117.8" fill="url(#iglow)"/>
+  <g transform="translate(156 156) rotate(-40)">
+    <path d="M -73.2 0.0 C -87.8 -43.9 -51.2 -65.8 -60.0 -109.7 C -36.6 -84.1 -23.4 -96.6 -27.8 -144.9 C -3.7 -106.1 11.7 -118.5 7.3 -174.1 C 33.7 -128.8 52.7 -114.1 45.4 -77.5 C 62.9 -92.2 74.6 -65.8 70.2 -43.9 C 81.9 -32.2 77.5 -14.6 73.2 0.0 Z" transform="translate(0 11.2)" fill="url(#if1)"/>
+    <path d="M -55.8 0.0 C -67.0 -33.5 -39.1 -50.2 -45.8 -83.7 C -27.9 -64.2 -17.9 -73.7 -21.2 -110.5 C -2.8 -80.9 8.9 -90.4 5.6 -132.8 C 25.7 -98.2 40.2 -87.0 34.6 -59.1 C 48.0 -70.3 56.9 -50.2 53.6 -33.5 C 62.5 -24.6 59.1 -11.2 55.8 0.0 Z" transform="translate(0 3.1)" fill="url(#if2)"/>
+    <path d="M -37.2 0.0 C -44.6 -22.3 -26.0 -33.5 -30.5 -55.8 C -18.6 -42.8 -11.9 -49.1 -14.1 -73.7 C -1.9 -53.9 6.0 -60.3 3.7 -88.5 C 17.1 -65.5 26.8 -58.0 23.1 -39.4 C 32.0 -46.9 37.9 -33.5 35.7 -22.3 C 41.7 -16.4 39.4 -7.4 37.2 0.0 Z" transform="translate(0 -7.4)" fill="url(#if3)"/>
+    <path d="M -21.1 0.0 C -25.3 -12.6 -14.8 -19.0 -17.3 -31.6 C -10.5 -24.2 -6.7 -27.8 -8.0 -41.7 C -1.1 -30.6 3.4 -34.1 2.1 -50.2 C 9.7 -37.1 15.2 -32.9 13.1 -22.3 C 18.1 -26.6 21.5 -19.0 20.2 -12.6 C 23.6 -9.3 22.3 -4.2 21.1 0.0 Z" transform="translate(0 -18.6)" fill="url(#if4)"/>
+    <circle cx="-67.7" cy="-153.3" r="3.1" fill="#FFE27A"/><circle cx="49.9" cy="-139.0" r="2.5" fill="#FFB12E"/><circle cx="-17.8" cy="-196.1" r="2.2" fill="#FFE27A"/><circle cx="82.0" cy="-89.1" r="1.9" fill="#FFB12E"/><circle cx="-92.7" cy="-96.3" r="1.9" fill="#FFE27A"/>
+  </g>
+  <circle cx="156" cy="156" r="62" fill="url(#iball)"/>
+  <circle cx="156" cy="156" r="62" fill="url(#irim)"/>
+  <circle cx="156" cy="156" r="26.7" fill="#FBF8EE"/>
+  <text x="156" y="168.4" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="34.7" fill="#111">8</text>
+  <circle cx="156" cy="156" r="62" fill="url(#ishine)"/>
+</svg>
