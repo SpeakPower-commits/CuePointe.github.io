@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CuePointe | Weekly Pool Knockouts Across Kampala</title>
-<meta name="description" content="Weekly pool knockouts and seasonal leagues at pool halls across Kampala. Enter for UGX 5,000 and every recorded match builds your CuePointe player rating.">
+<meta name="description" content="Weekly pool knockouts and seasonal leagues at pool halls across Kampala. Register online, play, and every recorded match builds your CuePointe player rating.">
 <meta name="theme-color" content="#0E4D36">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="CuePointe Action Pool">
 <meta property="og:url" content="https://cuepointe.vercel.app/">
 <meta property="og:title" content="CuePointe | Weekly Pool Knockouts Across Kampala">
-<meta property="og:description" content="Enter for UGX 5,000, play at rotating Kampala pool halls, and every recorded match builds your CuePointe rating.">
+<meta property="og:description" content="Register online, play at rotating Kampala pool halls, and every recorded match builds your CuePointe rating.">
 <meta property="og:image" content="https://cuepointe.vercel.app/images/hero-1.jpg">
 <meta property="og:locale" content="en_UG">
 <meta name="twitter:card" content="summary_large_image">
@@ -162,7 +162,7 @@ h1{font-variation-settings:'wdth' 68;font-weight:900;font-size:clamp(46px,8vw,92
     <a class="brand" href="./" aria-label="CuePointe home"><img src="logo-lockup.webp" width="120" height="63" alt="CuePointe — Empowering Talent"></a>
     <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
     <ul class="nav" id="nav">
-      <li><a href="#fixtures">Schedule</a></li>
+      <li><a href="view-schedule.html">Schedule</a></li>
       <li><a href="rankings.html">Rankings</a></li>
       <li><a href="news.html">News</a></li>
       <li><a href="venues.html">Venues</a></li>
@@ -187,9 +187,9 @@ h1{font-variation-settings:'wdth' 68;font-weight:900;font-size:clamp(46px,8vw,92
       <div>
         <p class="kicker">Knockouts &amp; leagues · Kampala</p>
         <h1 id="hero-title">Every shot is your story.</h1>
-        <p class="lede">Weekly knockouts at pool halls across Kampala. Enter for <strong>UGX 5,000</strong>, and every recorded match builds your <strong>CuePointe rating</strong>.</p>
+        <p class="lede">Weekly knockouts at pool halls across Kampala. Register online, play your matches, and every recorded result builds your <strong>CuePointe rating</strong>.</p>
         <div class="cta-row">
-          <a class="btn btn-orange" href="register.html">Register for UGX 5,000</a>
+          <a class="btn btn-orange" href="register.html">Register to play</a>
           <a class="btn btn-line" href="#fixtures">See the schedule</a>
         </div>
         <div class="slide-ctrl">
@@ -199,15 +199,14 @@ h1{font-variation-settings:'wdth' 68;font-weight:900;font-size:clamp(46px,8vw,92
         </div>
       </div>
 
-      <aside class="ticket" aria-labelledby="next-title">
+      <aside class="ticket" id="ticket" aria-labelledby="next-title" hidden>
         <p class="tlabel" id="next-label">Next on the board</p>
-        <h2 id="next-title">Checking the schedule…</h2>
-        <dl id="next-details"><dt>Entry</dt><dd>UGX 5,000</dd></dl>
+        <h2 id="next-title"></h2>
+        <dl id="next-details"></dl>
         <div class="tfoot">
           <a class="btn btn-dark" href="register.html">Register</a>
           <a class="btn btn-cream" style="border:2px solid var(--ink)" href="https://wa.me/256743482588?text=Hi%20CuePointe%2C%20when%20and%20where%20is%20the%20next%20knockout%3F" target="_blank" rel="noopener">Ask on WhatsApp</a>
         </div>
-        <p class="note" id="next-note"></p>
       </aside>
     </div>
   </section>
@@ -218,7 +217,7 @@ h1{font-variation-settings:'wdth' 68;font-weight:900;font-size:clamp(46px,8vw,92
       <ol class="steps">
         <li><span class="ball" style="--c:var(--ball1)" aria-hidden="true"><span>1</span></span>
           <h3>Pay the entry</h3>
-          <p>Send <strong>UGX 5,000</strong> by mobile money to <strong>0743 482 588</strong> (Thomas Otieno). Reference: your name.</p></li>
+          <p>Send the entry fee for your event by mobile money to <strong>0743 482 588</strong> (Thomas Otieno). Reference: your name.</p></li>
         <li><span class="ball" style="--c:var(--ball2)" aria-hidden="true"><span>2</span></span>
           <h3>Register online</h3>
           <p>The <a href="register.html" class="more">form</a> takes a minute: name, WhatsApp, area, level, and the payment screenshot.</p></li>
@@ -291,6 +290,7 @@ h1{font-variation-settings:'wdth' 68;font-weight:900;font-size:clamp(46px,8vw,92
     </div>
     <ul aria-label="Footer links">
       <li><a href="register.html">Register</a></li>
+      <li><a href="view-schedule.html">Schedule</a></li>
       <li><a href="rankings.html">Rankings</a></li>
       <li><a href="news.html">News</a></li>
       <li><a href="talent-fund.html">Talent Fund</a></li>
@@ -354,12 +354,9 @@ getJSON('schedule.json').then(d => {
     document.getElementById('next-details').innerHTML =
       '<dt>When</dt><dd>' + esc(next.date || 'Confirmed on WhatsApp') + '</dd>' +
       '<dt>Venue</dt><dd>' + esc(next.venue || 'Confirmed on WhatsApp') + '</dd>' +
-      '<dt>Entry</dt><dd>' + esc(next.entry || 'UGX 5,000') + '</dd>' +
+      (next.entry ? '<dt>Entry</dt><dd>' + esc(next.entry) + '</dd>' : '') +
       (next.prize ? '<dt>Prize</dt><dd class="prize">' + esc(next.prize) + '</dd>' : '');
-  } else {
-    document.getElementById('next-title').textContent = 'Next date coming soon';
-    document.getElementById('next-details').innerHTML = '<dt>Entry</dt><dd>UGX 5,000</dd><dt>Venue</dt><dd>Announced on WhatsApp</dd>';
-    document.getElementById('next-note').textContent = 'Register now and we will message you the date and venue.';
+    document.getElementById('ticket').hidden = false;
   }
   document.getElementById('fixture-list').innerHTML = events.length ? events.slice(0, 8).map(e => `
     <li>
@@ -368,7 +365,6 @@ getJSON('schedule.json').then(d => {
       <span class="fee">${esc(e.entry || '')}${e.prize ? '<br>Prize ' + esc(e.prize) : ''}</span>
     </li>`).join('') : '<li class="empty">No dates on the schedule right now. Message us on WhatsApp for the next knockout.</li>';
 }).catch(() => {
-  document.getElementById('next-title').textContent = 'Next date on WhatsApp';
   document.getElementById('fixture-list').innerHTML = '<li class="empty">The schedule could not load. Please refresh.</li>';
 });
 

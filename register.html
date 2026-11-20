@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Register to Play | CuePointe</title>
-<meta name="description" content="Register for the next CuePointe pool knockout in Kampala: UGX 5,000 by mobile money, five quick details and your payment screenshot.">
+<meta name="description" content="Register for the next CuePointe pool knockout in Kampala: pay the entry by mobile money, then send five quick details and your payment screenshot.">
 <meta name="theme-color" content="#0E4D36">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -87,7 +87,7 @@ h1{font-variation-settings:'wdth' 68;font-weight:900;font-size:clamp(40px,6vw,64
     <a class="brand" href="./" aria-label="CuePointe home"><img src="logo-lockup.webp" width="120" height="63" alt="CuePointe — Empowering Talent"></a>
     <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
     <ul class="nav" id="nav">
-      <li><a href="./#fixtures">Schedule</a></li>
+      <li><a href="view-schedule.html">Schedule</a></li>
       <li><a href="rankings.html">Rankings</a></li>
       <li><a href="news.html">News</a></li>
       <li><a href="venues.html">Venues</a></li>
@@ -107,7 +107,8 @@ h1{font-variation-settings:'wdth' 68;font-weight:900;font-size:clamp(40px,6vw,64
 
       <div class="pay" aria-labelledby="pay-title">
         <p class="tlabel" id="pay-title">Step 1 · Pay the entry</p>
-        <p class="amount">UGX 5,000</p>
+        <p class="amount" id="fee">Entry fee</p>
+        <p class="to" id="fee-note">The fee for your event shows here when you pick it.</p>
         <p class="to">Mobile money to Thomas Otieno</p>
         <div class="num"><strong id="momo">0743 482 588</strong><button type="button" class="btn copy" id="copy">Copy number</button></div>
         <p class="ref">Reference: <strong>your name</strong></p>
@@ -179,12 +180,18 @@ h1{font-variation-settings:'wdth' 68;font-weight:900;font-size:clamp(40px,6vw,64
       <p>Kampala, Uganda · © 2026</p>
     </div>
     <ul aria-label="Footer links">
-      <li><a href="./">Home</a></li>
+      <li><a href="register.html">Register</a></li>
+      <li><a href="view-schedule.html">Schedule</a></li>
       <li><a href="rankings.html">Rankings</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="talent-fund.html">Talent Fund</a></li>
+      <li><a href="about.html">About</a></li>
       <li><a href="contact.html">Contact</a></li>
       <li><a href="https://www.facebook.com/CuePointe" target="_blank" rel="noopener">Facebook</a></li>
       <li><a href="https://www.instagram.com/cuepointe" target="_blank" rel="noopener">Instagram</a></li>
       <li><a href="https://www.tiktok.com/@cuepointe" target="_blank" rel="noopener">TikTok</a></li>
+      <li><a href="https://www.youtube.com/channel/UCJs5yTrm9EU0CBG6YOfU3Cw" target="_blank" rel="noopener">YouTube</a></li>
+      <li><a href="admin.html">Staff</a></li>
     </ul>
   </div>
 </footer>
@@ -224,9 +231,21 @@ h1{font-variation-settings:'wdth' 68;font-weight:900;font-size:clamp(40px,6vw,64
       const o = document.createElement('option');
       o.textContent = e.title + (e.date ? ' – ' + e.date : '');
       o.value = o.textContent;
+      o.dataset.entry = e.entry || '';
       sel.appendChild(o);
     });
+    showFee();
   }).catch(() => {});
+
+  // The payment card shows the chosen event's own entry fee (fees can differ per event)
+  function showFee(){
+    const o = document.getElementById('f-event').selectedOptions[0];
+    const fee = o && o.dataset.entry;
+    document.getElementById('fee').textContent = fee || 'Entry fee';
+    document.getElementById('fee-note').textContent = fee ? 'For ' + o.textContent : 'We confirm the fee for your event on WhatsApp.';
+  }
+  document.getElementById('f-event').addEventListener('change', showFee);
+  showFee();
 
   // Shrink big photos before upload (saves mobile data; stays under the 4 MB limit)
   function shrink(file){
